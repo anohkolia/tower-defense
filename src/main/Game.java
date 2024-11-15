@@ -13,8 +13,9 @@ public class Game {
         long previousTime = System.currentTimeMillis();
 
         while (isGameRunning()) {
+            // Calcul du temps écoulé depuis la dernière frame (deltaTimeSecond)
             long currentTime = System.currentTimeMillis();
-            double deltaTimeSecond = (double) (currentTime - previousTime) / 1000;
+            double deltaTimeSecond = (double) (currentTime - previousTime) / 1000.0;
             previousTime = currentTime;
             
             update(deltaTimeSecond);            

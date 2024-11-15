@@ -20,10 +20,10 @@ public class GameMap {
     }
 
     private char[][] readMap(String mapFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("../resources/maps/" + mapFile))) {
             return br.lines().map(String::toCharArray).toArray(char[][]::new);
         } catch (IOException e) {
-            System.err.println("Erreur lors de la lecture du fichier de carte.");
+            System.err.println("Erreur lors de la lecture du fichier de carte : " + mapFile);
             e.printStackTrace();
             return new char[0][0];
         }
