@@ -1,3 +1,4 @@
+package ui;
 /******************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
