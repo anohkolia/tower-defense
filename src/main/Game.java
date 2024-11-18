@@ -28,7 +28,7 @@ public class Game {
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
 
-        map = new GameMap("10-10.mtp"); // Nom de la carte, modifiable selon le fichier à charger
+        map = new GameMap("./resources/maps/10-10.mtp"); // Nom de la carte, modifiable selon le fichier à charger
     }
 
     private boolean isGameRunning() {
