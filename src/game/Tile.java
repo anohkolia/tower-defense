@@ -4,9 +4,11 @@ import ui.StdDraw;
 import java.awt.Color;
 
 public class Tile {
-    private final char type;       // Type de la case ('S', 'R', 'C', etc.)
+    private final char type; // Type de la case ('S', 'R', 'C', etc.)
     private boolean occupied;      // Indique si la case est occupée par une tour
     //private Tower tower;           // Tour placée sur la case (null si aucune)
+    private double x, y; // Position de la case
+    private double width, height; // Taille de la case
 
     public Tile(char type) {
         this.type = type;
@@ -59,5 +61,13 @@ public class Tile {
         /* if (occupied && tower != null) {
             tower.draw(x, y); // Méthode draw() de Tower pour dessiner la tour
         } */
+    }
+
+    public double getCenterX() {
+        return 0; // A modifier
+    }
+
+    public double getCenterY() {
+        return 0; // A modifier
     }
 }
