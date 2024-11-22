@@ -49,6 +49,7 @@ public class Enemy {
         // Logique pour récupérer la prochaine case 'R' à partir de la case actuelle
 
         return null; // A modifier
+        //return tile.getNext();
     }
 
     public void subirDegats(int degats) {
@@ -62,7 +63,7 @@ public class Enemy {
     public void draw() {
         // Dessine l'ennemi à la position (x, y)
         StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.filledCircle(x, y, 0.5); // Dessine un cercle rouge de rayon 0.5
+        StdDraw.filledCircle(x, y, 10); // Dessine un cercle rouge de rayon 10
     }
 
     public double getX() {
