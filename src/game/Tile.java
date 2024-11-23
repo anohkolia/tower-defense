@@ -5,14 +5,14 @@ import java.awt.Color;
 
 public class Tile {
     private final char type; // Type de la case ('S', 'R', 'C', etc.)
-    private boolean occupied;      // Indique si la case est occupée par une tour
+    private boolean occupe;      // Indique si la case est occupée par une tour
     //private Tower tower;           // Tour placée sur la case (null si aucune)
     private double x, y; // Position de la case
     private double width, height; // Taille de la case
 
     public Tile(char type) {
         this.type = type;
-        this.occupied = false;
+        this.occupe = false;
         //this.tower = null;
     }
 
@@ -20,8 +20,8 @@ public class Tile {
         return type;
     }
 
-    public boolean isOccupied() {
-        return occupied;
+    public boolean isOccupe() {
+        return occupe;
     }
 
     /* public Tower getTower() {
@@ -41,7 +41,7 @@ public class Tile {
 
     public void removeTower() {
         //this.tower = null;
-        this.occupied = false;
+        this.occupe = false;
     }
 
     public void draw(double x, double y, double halfSize) {

@@ -1,33 +1,41 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import main.Game;
-
-public class vagueEnnemi {
+public class VagueEnnemi {
     private List<Enemy> ennemis;
-    private double tempsProchainEnnemi;
-    private double tempsEntreEnnemis; // Temps entre chaque apparition d'ennemi
+    private List<Double> tempsApparitionEnnemis;
+    private double tempsEcoule; // Temps écoulé depuis le début de la vague
 
-    public vagueEnnemi(List<Enemy> ennemis, double tempsEntreEnnemis) {
+    public VagueEnnemi() {
         this.ennemis = new ArrayList<>();
-        this.tempsProchainEnnemi = 0;
-        this.tempsEntreEnnemis = tempsEntreEnnemis;
+        this.tempsApparitionEnnemis = new ArrayList<>();
+        this.tempsEcoule = 0;
     }
 
-    public void ajouterEnnemi(Enemy ennmie) {
-        ennemis.add(ennmie);
+    public void ajouterEnnemi(Enemy ennmie,double tempsApparition) {
+        this.ennemis.add(ennmie);
+        this.tempsApparitionEnnemis.add(tempsApparition);
     }
 
-    public void update(double deltaTimeSecond) {
-        tempsProchainEnnemi += deltaTimeSecond;
-        // Faire apparaitre les ennemis selon l'intervalle de temps
-        if (tempsProchainEnnemi >= tempsEntreEnnemis && !ennemis.isEmpty()) {
-            Enemy ennemi = ennemis.remove(0);
-            
-            //Game.addEnemyToMap(ennemi);
-            tempsProchainEnnemi = 0;
+    public void update(double deltaTimeSecond, List<Enemy> ennemisActifs) {
+        tempsEcoule += deltaTimeSecond;
+
+        // Parcours les ennemis pour les engendrer au bon moment
+        Iterator<Double> iterTempsApparition = tempsApparitionEnnemis.iterator();
+        Iterator<Enemy> iterEnnemis = ennemis.iterator();
+
+        while (iterTempsApparition.hasNext() && iterEnnemis.hasNext()) {
+            double tempsApparition = iterTempsApparition.next();
+            Enemy ennemi = iterEnnemis.next();
+
+            if (tempsEcoule >= tempsApparition) {
+                ennemisActifs.add(ennemi);
+                iterTempsApparition.remove(); // Supprime le temps d'apparition
+                iterEnnemis.remove(); // Supprime l'ennemi de la liste
+            }
         }
     }
 
@@ -43,19 +51,19 @@ public class vagueEnnemi {
         this.ennemis = ennemis;
     }
 
-    public double getTempsProchainEnnemi() {
-        return tempsProchainEnnemi;
+    public List<Double> getTempsApparitionEnnemis() {
+        return tempsApparitionEnnemis;
     }
 
-    public void setTempsProchainEnnemi(double tempsProchainEnnemi) {
-        this.tempsProchainEnnemi = tempsProchainEnnemi;
+    public void setTempsApparitionEnnemis(List<Double> tempsApparitionEnnemis) {
+        this.tempsApparitionEnnemis = tempsApparitionEnnemis;
     }
 
-    public double getTempsEntreEnnemis() {
-        return tempsEntreEnnemis;
+    public double getTempsEcoule() {
+        return tempsEcoule;
     }
 
-    public void setTempsEntreEnnemis(double tempsEntreEnnemis) {
-        this.tempsEntreEnnemis = tempsEntreEnnemis;
+    public void setTempsEcoule(double tempsEcoule) {
+        this.tempsEcoule = tempsEcoule;
     }
 }

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import ui.StdDraw;
-
 // Cette classe gère la lecture et l'affichage de la carte de jeu
 public class GameMap {
     private final int width;
@@ -47,13 +45,26 @@ public class GameMap {
         double startX = 350 - (width / 2.0) * tileSize;
         double startY = 350 - (height  / 2.0) * tileSize;
 
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
                 Tile tile = grid[row][col];
-                tile.draw(startX + col * tileSize, startY + (height - row - 1) * tileSize, tileSize / 2);
+                tile.draw(startX + col * tileSize, startY + (grid.length - row - 1) * tileSize, tileSize / 2);
             }
         }
     }
+
+    public Tile getCaseApparition() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                Tile tile = grid[row][col];
+                if (tile.getType() == 'S') {
+                    return tile; // Retourne la première case d'apparition
+                }
+            }
+        }
+        throw new IllegalStateException("Aucune case d'apparition (S) trouvée sur la carte.");
+    }
+
 
     /* private void drawTile(double x, double y, double halfSize, char tileType) {
         switch (tileType) {
