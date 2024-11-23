@@ -48,7 +48,16 @@ public class GameMap {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 Tile tile = grid[row][col];
-                tile.draw(startX + col * tileSize, startY + (grid.length - row - 1) * tileSize, tileSize / 2);
+
+                // Calaule de la position de chaque case
+                double x = startX + col * tileSize + tileSize / 2;
+                double y = startY + (grid.length - row - 1) * tileSize + tileSize / 2;
+
+                // Définit la position et la taille de la case
+                tile.setPosition(x, y, tileSize);
+
+                // Dessine la case
+                tile.draw();
             }
         }
     }

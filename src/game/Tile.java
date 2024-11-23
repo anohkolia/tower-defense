@@ -8,12 +8,19 @@ public class Tile {
     private boolean occupe;      // Indique si la case est occupée par une tour
     //private Tower tower;           // Tour placée sur la case (null si aucune)
     private double x, y; // Position de la case
-    private double width, height; // Taille de la case
+    private double size; // Taille de la case
 
     public Tile(char type) {
         this.type = type;
         this.occupe = false;
         //this.tower = null;
+    }
+
+    // initialisation de la position et de la taille de la case
+    public void setPosition(double x, double y, double size) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
     }
 
     public char getType() {
@@ -44,7 +51,7 @@ public class Tile {
         this.occupe = false;
     }
 
-    public void draw(double x, double y, double halfSize) {
+    public void draw() {
         // Dessine la case avec la couleur correspondant à son type
         switch (type) {
             case 'S': StdDraw.setPenColor(Color.RED); break;             // Spawn
@@ -55,19 +62,23 @@ public class Tile {
             default: StdDraw.setPenColor(Color.BLACK); break;           // Erreur
         }
         // Dessine la case
-        StdDraw.filledSquare(x, y, halfSize);
+        StdDraw.filledSquare(x, y, size / 2);
+
+        // Dessine le contour de la case
+        StdDraw.setPenColor(Color.BLACK);
+        StdDraw.square(x, y, size / 2);
 
         // Si une tour est placée sur cette case, dessine la tour
-        /* if (occupied && tower != null) {
+        /* if (occupe && tower != null) {
             tower.draw(x, y); // Méthode draw() de Tower pour dessiner la tour
         } */
     }
 
     public double getCenterX() {
-        return 0; // A modifier
+        return x; // Retourne la position X du centre de la case
     }
 
     public double getCenterY() {
-        return 0; // A modifier
+        return y; // Retourne la position Y du centre de la case
     }
 }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import game.ChargementNiveau;
 import game.ChargementVague;
 import game.Enemy;
 import game.GameMap;
+import game.Niveau;
 import game.Tile;
 import game.VagueEnnemi;
 import ui.StdDraw;
@@ -16,6 +18,8 @@ public class Game {
     private GameMap map;
     private VagueEnnemi vagueEncours; // Vague d'ennemis actuellement en cours
     private List<Enemy> ennemiesActifs;
+    private Niveau niveau; // Niveau actuel
+    private List<VagueEnnemi> vagues; // Liste des vagues du niveau
 
     public void launch() {
         init();
@@ -37,13 +41,20 @@ public class Game {
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
 
-        map = new GameMap("./resources/maps/10-10.mtp"); // Nom de la carte, modifiable selon le fichier à charger
+        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
+        
+        map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
 
-        // Chargement de la première vague d'ennemis depuis le fichier
-        Tile caseApparition = map.getCaseApparition(); // récupère la case de départ "S"
-        vagueEncours = ChargementVague.chargerVague("./resources/waves/wave1.wve", caseApparition);
+        // Chargement des vagues depuis les fichiers
+        vagues = new ArrayList<>();
+        for (String vagueFile : niveau.getVaguesFiles()) {
+            Tile caseApparition = map.getCaseApparition();
+            VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", caseApparition);
+            vagues.add(vague);
+        }
 
         ennemiesActifs = new ArrayList<>();
+        vagueEncours = null; // Pas de vague en cours au début
     }
 
     private boolean isGameRunning() {
@@ -62,22 +73,31 @@ public class Game {
                 vagueEncours = null; // La vague est terminée
             }
         }
-        StdDraw.show();
+        
+        // Si aucune vague n'est en cours, on lance la prochaine vague
+        if (vagueEncours == null && !vagues.isEmpty()) {
+            vagueEncours = vagues.remove(0); // Récupère la première vague de la liste
+        }
 
+        // Mise à jour et dessin des ennemis actifs
         Iterator<Enemy> iterEnnemis = ennemiesActifs.iterator();
         while (iterEnnemis.hasNext()) {
             Enemy ennemi = iterEnnemis.next();
             ennemi.seDeplacer(deltaTimeSecond);
-
+            
             if (ennemi.estMort()) {
                 iterEnnemis.remove(); // Supprime les ennemis morts
+            } else {
+                ennemi.draw();
             }
         }
 
-        // Dessine les ennemis actifs
+        StdDraw.show();
+
+        /* // Dessine les ennemis actifs
         for (Enemy ennemi : ennemiesActifs) {
             ennemi.draw();
-        }
+        } */
 
     }
 }
