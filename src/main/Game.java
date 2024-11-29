@@ -48,7 +48,8 @@ public class Game {
         // Chargement des vagues depuis les fichiers
         vagues = new ArrayList<>();
         for (String vagueFile : niveau.getVaguesFiles()) {
-            Tile caseApparition = map.getCaseApparition();
+            Tile caseApparition = map.getCaseDepart();
+            Tile caseArrivee = map.getCaseArrivee();
             VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", caseApparition);
             vagues.add(vague);
         }

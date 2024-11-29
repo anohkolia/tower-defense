@@ -1,5 +1,12 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+
 import ui.StdDraw;
 
 public class Enemy {
@@ -45,11 +52,52 @@ public class Enemy {
 
     }
 
+    // Implémentation de la méthode getCaseSuivante() pour obtenir la case suivante 'R' proche de la case actuelle sur laquelle l'ennemi vas se déplacer
     private Tile getCaseSuivante(Tile tile) {
-        // Logique pour récupérer la prochaine case 'R' à partir de la case actuelle
+        // Utilisation de BFS pour trouver les case 'R' voisines pour arriver à la case 'B'
+        Queue<Tile> queue = new LinkedList<>();
+        Map<Tile, Tile> cameFrom = new HashMap<>();
+        queue.add(tile);
+        cameFrom.put(tile, null);
 
-        return null; // A modifier
-        //return tile.getNext();
+        while (!queue.isEmpty()) {
+            Tile current = queue.poll();
+
+            if (current.getType() == 'B') {
+                return reconstructPath(cameFrom, tile, current);
+            }
+            
+            for (Tile neighbor : getVoisins(current)) {
+                if (!cameFrom.containsKey(neighbor) && neighbor.getType() != 'C') {
+                    queue.add(neighbor);
+                    cameFrom.put(neighbor, current);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Tile reconstructPath(Map<Tile, Tile> cameFrom, Tile start, Tile goal) {
+        Tile current = goal;
+        while (cameFrom.get(current) != start) {
+            current = cameFrom.get(current);
+        }
+        return current;
+    }
+
+    private List<Tile> getVoisins(Tile tile) {
+        List<Tile> voisins = new ArrayList<>();
+        int row = tile.getRow();
+        int col = tile.getCol();
+        GameMap grid = tile.getGrid();
+
+        if (row > 0) voisins.add(grid.getTile(row - 1, col)); // Voisin du haut
+        if (row < grid.getHeight() - 1) voisins.add(grid.getTile(row + 1, col)); // Voisin du bas
+        if (col > 0) voisins.add(grid.getTile(row, col - 1)); // Voisin de gauche
+        if (col < grid.getWidth() - 1) voisins.add(grid.getTile(row, col + 1)); // Voisin de droite
+
+        return voisins;
     }
 
     public void subirDegats(int degats) {

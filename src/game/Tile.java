@@ -9,10 +9,15 @@ public class Tile {
     //private Tower tower;           // Tour placée sur la case (null si aucune)
     private double x, y; // Position de la case
     private double size; // Taille de la case
+    private int row, col; // Position de la case dans la grille
+    private GameMap grid; // Grille de jeu
 
-    public Tile(char type) {
+    public Tile(GameMap grid, int row, int col, char type) {
         this.type = type;
         this.occupe = false;
+        this.grid = grid;
+        this.row = row;
+        this.col = col;
         //this.tower = null;
     }
 
@@ -21,14 +26,6 @@ public class Tile {
         this.x = x;
         this.y = y;
         this.size = size;
-    }
-
-    public char getType() {
-        return type;
-    }
-
-    public boolean isOccupe() {
-        return occupe;
     }
 
     /* public Tower getTower() {
@@ -75,10 +72,27 @@ public class Tile {
     }
 
     public double getCenterX() {
-        return x; // Retourne la position X du centre de la case
+        return x + size / 2.0; // Retourne la position X du centre de la case
     }
 
     public double getCenterY() {
-        return y; // Retourne la position Y du centre de la case
+        return y + size / 2.0; // Retourne la position Y du centre de la case
     }
+
+    public GameMap getGrid() {
+        return grid;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public char getType() {
+        return type;
+    }
+
 }

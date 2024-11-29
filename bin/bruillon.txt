@@ -73,3 +73,16 @@ public class GameMap {
     }
 
 }
+
+
+public Tile getCaseApparition() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                Tile tile = grid[row][col];
+                if (tile.getType() == 'S') {
+                    return tile; // Retourne la première case d'apparition
+                }
+            }
+        }
+        throw new IllegalStateException("Aucune case d'apparition (S) trouvée sur la carte.");
+    }

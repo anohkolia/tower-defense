@@ -18,7 +18,7 @@ public class GameMap {
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                grid[row][col] = new Tile(tempGrid[row][col]);
+                grid[row][col] = new Tile(this, row, col, tempGrid[row][col]);
             }
         }
     }
@@ -62,19 +62,30 @@ public class GameMap {
         }
     }
 
-    public Tile getCaseApparition() {
+    // Implémentation de la méthode getCaseDepart() pour obtenir la case de départ 'S' de l'ennemi
+    public Tile getCaseDepart() {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
-                Tile tile = grid[row][col];
-                if (tile.getType() == 'S') {
-                    return tile; // Retourne la première case d'apparition
+                if (grid[row][col].getType() == 'S') {
+                    return grid[row][col];
                 }
             }
         }
-        throw new IllegalStateException("Aucune case d'apparition (S) trouvée sur la carte.");
+        return null;
     }
 
-
+    // Implémentation de la méthode getCaseArrivee() pour obtenir la case d'arrivée 'B' de l'ennemi
+    public Tile getCaseArrivee() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col].getType() == 'B') {
+                    return grid[row][col];
+                }
+            }
+        }
+        return null;
+    }
+    
     /* private void drawTile(double x, double y, double halfSize, char tileType) {
         switch (tileType) {
             case 'S':
@@ -98,5 +109,13 @@ public class GameMap {
         }
         StdDraw.filledSquare(x, y, halfSize);
     } */
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
 }
