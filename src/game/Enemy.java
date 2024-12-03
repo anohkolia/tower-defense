@@ -6,9 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-
 import ui.StdDraw;
-
 public class Enemy {
     private double x, y; // Position de actuelle l'ennemi
     private  int pv;
