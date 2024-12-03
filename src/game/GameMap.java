@@ -64,14 +64,14 @@ public class GameMap {
 
     // Implémentation de la méthode getCaseDepart() pour obtenir la case de départ 'S' de l'ennemi
     public Tile getCaseDepart() {
-        /* for (int row = 0; row < grid.length; row++) {
+        for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col].getType() == 'S') {
                     return grid[row][col]; 
                 }
             }
-        } */
-        return grid[1][1];
+        }
+        return null;
     }
 
     // Implémentation de la méthode getCaseArrivee() pour obtenir la case d'arrivée 'B' de l'ennemi
