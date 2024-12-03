@@ -52,7 +52,7 @@ public class Tile {
         // Dessine la case avec la couleur correspondant à son type
         switch (type) {
             case 'S': StdDraw.setPenColor(Color.RED); break;             // Spawn
-            case 'B': StdDraw.setPenColor(Color.ORANGE); break;          // Base
+            case 'B': StdDraw.setPenColor(Color.YELLOW); break;          // Base
             case 'R': StdDraw.setPenColor(new Color(194, 178, 128)); break; // Route
             case 'C': StdDraw.setPenColor(Color.LIGHT_GRAY); break;      // Constructible
             case 'X': StdDraw.setPenColor(new Color(11, 102, 35)); break; // Décor
