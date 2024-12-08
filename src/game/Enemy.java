@@ -115,12 +115,10 @@ public class Enemy {
     // Dessine l'ennemi à la position de la case "S"
 
     public double getX() {
-        x = 1.5;
         return x;
     }
 
     public double getY() {
-        y = 9.5;
         return y;
     }
 
