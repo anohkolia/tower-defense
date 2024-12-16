@@ -113,6 +113,14 @@ public class Enemy {
     }
 
     // Dessine l'ennemi à la position de la case "S"
+    /* public void draw() {
+        if(caseActuelle != null) {
+            double drawX = caseActuelle.getCenterX();
+            double drawY = caseActuelle.getCenterY();
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledCircle(drawX, drawY, 10);
+        }
+    } */
 
     public double getX() {
         return x;

@@ -1,9 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import game.ChargementNiveau;
 import game.ChargementVague;
 import game.Enemy;
@@ -11,6 +7,9 @@ import game.GameMap;
 import game.Niveau;
 import game.Tile;
 import game.VagueEnnemi;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import ui.StdDraw;
 
 // Gestion de la boucle de jeu et initialisation de la carte.
@@ -65,6 +64,9 @@ public class Game {
 
     private void update(double deltaTimeSecond) {
         StdDraw.clear();
+
+        drawZones();
+
         map.draw(); // Appel la méthode draw de pour afficher la carte
 
         if (vagueEncours != null) {
@@ -101,4 +103,22 @@ public class Game {
         } */
 
     }
+
+    private void drawZones() {
+        // Zone Rouge (Progression)
+        
+        StdDraw.setPenColor(StdDraw.PINK);
+        StdDraw.rectangle(856, 688, 144, 12);
+    
+        // Zone Verte (Joueur)
+        
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.rectangle(856, 641, 144, 25);
+    
+        // Zone Bleue (Magasin)
+        
+        StdDraw.setPenColor(StdDraw.CYAN);
+        StdDraw.rectangle(856, 303, 144, 303);
+    }
+    
 }

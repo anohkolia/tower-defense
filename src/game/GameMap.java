@@ -85,30 +85,6 @@ public class GameMap {
         }
         return null;
     }
-    
-    /* private void drawTile(double x, double y, double halfSize, char tileType) {
-        switch (tileType) {
-            case 'S':
-                StdDraw.setPenColor(255, 0, 0); // Rouge
-                break;
-            case 'B':
-                StdDraw.setPenColor(255, 165, 0); // Orange
-                break;
-            case 'R':
-                StdDraw.setPenColor(194, 178, 128); // Marron
-                break;
-            case 'C':
-                StdDraw.setPenColor(211, 211, 211); // Gris clair
-                break;
-            case 'X':
-                StdDraw.setPenColor(11, 102, 35); // Vert foncé
-                break;
-            default:
-                StdDraw.setPenColor(0, 0, 0); // Noir pour erreur
-                break;
-        }
-        StdDraw.filledSquare(x, y, halfSize);
-    } */
 
     public int getWidth() {
         return width;

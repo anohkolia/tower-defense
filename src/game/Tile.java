@@ -1,7 +1,7 @@
 package game;
 
-import ui.StdDraw;
 import java.awt.Color;
+import ui.StdDraw;
 
 public class Tile {
     private final char type; // Type de la case ('S', 'R', 'C', etc.)
@@ -72,11 +72,11 @@ public class Tile {
     }
 
     public double getCenterX() {
-        return x + size / 2.0; // Retourne la position X du centre de la case
+        return col * 70 / 2; // Retourne la position X du centre de la case
     }
 
     public double getCenterY() {
-        return y + size / 2.0; // Retourne la position Y du centre de la case
+        return row * 70 / 2; // Retourne la position Y du centre de la case
     }
 
     public GameMap getGrid() {
