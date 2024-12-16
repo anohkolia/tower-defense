@@ -72,11 +72,11 @@ public class Tile {
     }
 
     public double getCenterX() {
-        return col * 70 / 2; // Retourne la position X du centre de la case
+        return x; // Retourne la position X du centre de la case
     }
 
     public double getCenterY() {
-        return row * 70 / 2; // Retourne la position Y du centre de la case
+        return y; // Retourne la position Y du centre de la case
     }
 
     public GameMap getGrid() {

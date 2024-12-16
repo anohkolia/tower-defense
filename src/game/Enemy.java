@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Queue;
 import ui.StdDraw;
 public class Enemy {
+    private List<Tile> chemin;
+    private int indexChemin;
     private double x, y; // Position de actuelle l'ennemi
     private  int pv;
     private  double speed; // Vitesse de déplacement de l'ennemi
@@ -15,20 +17,22 @@ public class Enemy {
     private Tile caseActuelle; // Case sur laquelle se trouve l'ennemi
     private Tile caseCible; // Case cible vers laquelle se dirige l'ennemi
 
-    public Enemy(Tile caseDepart, double speed, int pv) {
-        this.caseActuelle = caseDepart;
-        this.caseCible = caseDepart;
-        this.x = caseDepart.getCenterX();
-        this.y = caseDepart.getCenterY();
+    public Enemy(List<Tile> chemin, double speed, int pv) {
+        this.chemin = chemin;
+        this.indexChemin = 0; // Commence à la première case du chemin
+        this.x = chemin.get(0).getCenterX();
+        this.y = chemin.get(0).getCenterY();
         this.speed = speed;
         this.pv = pv;
     }
 
     public void seDeplacer(double deltaTimeSecond) {
         // Il n'y a pas de case suivante, l'ennemi est arrivé à destination
-        if (caseCible == null) {
-            return;
+        if (indexChemin >= chemin.size()) {
+            return; // Ennemi a atteint la fin du chemin
         }
+
+        Tile caseCible = chemin.get(indexChemin);
 
         // Calcul de la distance entre l'ennemi et la case cible
         double dx = caseCible.getCenterX() - x;
@@ -40,8 +44,7 @@ public class Enemy {
             // Mettre à jour la position de l'ennemi et cible la case suivante
             x = caseCible.getCenterX();
             y = caseCible.getCenterY();
-            caseActuelle = caseCible;
-            caseCible = getCaseSuivante(caseActuelle); // Récupère la case suivante
+            indexChemin++; // Passer à la prochaine case
         } else {
             // Déplacement de l'ennemi vers la case cible
             x += (dx / distance) * speed * deltaTimeSecond;

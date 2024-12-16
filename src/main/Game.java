@@ -40,16 +40,16 @@ public class Game {
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
 
-        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
-        
+        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level3.lvl"); // Chargement du niveau depuis le fichier
+
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
+
+        List<Tile> chemin = map.calculerChemin(); // Calcule le chemin
 
         // Chargement des vagues depuis les fichiers
         vagues = new ArrayList<>();
         for (String vagueFile : niveau.getVaguesFiles()) {
-            Tile caseApparition = map.getCaseDepart();
-            Tile caseArrivee = map.getCaseArrivee();
-            VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", caseApparition);
+            VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", chemin);
             vagues.add(vague);
         }
 

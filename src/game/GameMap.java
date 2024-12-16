@@ -3,6 +3,12 @@ package game;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 // Cette classe gère la lecture et l'affichage de la carte de jeu
 public class GameMap {
@@ -85,6 +91,65 @@ public class GameMap {
         }
         return null;
     }
+
+    //-------------------------------------------------------------------------------
+
+    public List<Tile> calculerChemin() {
+        Tile caseDepart = getCaseDepart();
+        Tile caseArrivee = getCaseArrivee();
+
+        if (caseDepart == null || caseArrivee == null) {
+            throw new IllegalStateException("Les cases 'S' ou 'B' ne sont pas définies sur la carte.");
+        }
+
+        // Utilisation de BFS pour trouver le chemin
+        Queue<Tile> queue = new LinkedList<>();
+        Map<Tile, Tile> cameFrom = new HashMap<>();
+        queue.add(caseDepart);
+        cameFrom.put(caseDepart, null);
+
+        while (!queue.isEmpty()) {
+            Tile current = queue.poll();
+
+            if (current == caseArrivee) {
+                break; // Chemin trouvé
+            }
+
+            for (Tile voisin : getVoisins(current)) {
+                if (!cameFrom.containsKey(voisin) && voisin.getType() == 'R') {
+                    queue.add(voisin);
+                    cameFrom.put(voisin, current);
+                }
+            }
+        }
+
+        // Reconstruire le chemin
+        List<Tile> chemin = new ArrayList<>();
+        Tile current = caseArrivee;
+        while (current != null) {
+            chemin.add(0, current); // Ajoute au début de la liste pour construire le chemin
+            current = cameFrom.get(current);
+        }
+
+        return chemin;
+    }
+
+    private List<Tile> getVoisins(Tile tile) {
+        List<Tile> voisins = new ArrayList<>();
+        int row = tile.getRow();
+        int col = tile.getCol();
+
+        if (row > 0) voisins.add(grid[row - 1][col]); // Haut
+        if (row < height - 1) voisins.add(grid[row + 1][col]); // Bas
+        if (col > 0) voisins.add(grid[row][col - 1]); // Gauche
+        if (col < width - 1) voisins.add(grid[row][col + 1]); // Droite
+
+        return voisins;
+    }
+
+    //------------------------------------------------------------------------------------------
+
+
 
     public int getWidth() {
         return width;
