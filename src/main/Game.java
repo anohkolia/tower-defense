@@ -44,7 +44,7 @@ public class Game {
 
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
 
-        List<Tile> chemin = map.calculerChemin(); // Calcule le chemin
+        List<Tile> chemin = map.calculerCheminVersBase(); // Calcule le chemin
 
         // Chargement des vagues depuis les fichiers
         vagues = new ArrayList<>();

@@ -73,13 +73,12 @@ public class GameMap {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col].getType() == 'S') {
-                    return grid[row][col]; 
+                    return grid[row][col];
                 }
             }
         }
-        return null;
+        throw new IllegalStateException("Aucune case 'S' trouvée sur la carte.");
     }
-
     // Implémentation de la méthode getCaseArrivee() pour obtenir la case d'arrivée 'B' de l'ennemi
     public Tile getCaseArrivee() {
         for (int row = 0; row < grid.length; row++) {
@@ -89,12 +88,13 @@ public class GameMap {
                 }
             }
         }
-        return null;
+        throw new IllegalStateException("Aucune case 'B' trouvée sur la carte.");
     }
+    
 
     //-------------------------------------------------------------------------------
 
-    public List<Tile> calculerChemin() {
+    public List<Tile> calculerCheminVersBase() {
         Tile caseDepart = getCaseDepart();
         Tile caseArrivee = getCaseArrivee();
 
@@ -116,12 +116,17 @@ public class GameMap {
             }
 
             for (Tile voisin : getVoisins(current)) {
-                if (!cameFrom.containsKey(voisin) && voisin.getType() == 'R') {
+                if (!cameFrom.containsKey(voisin) && (voisin.getType() == 'R' || voisin.getType() == 'B')) {
                     queue.add(voisin);
                     cameFrom.put(voisin, current);
                 }
             }
         }
+
+        if (!cameFrom.containsKey(caseArrivee)) {
+            throw new IllegalStateException("Aucun chemin trouvé entre 'S' et 'B'.");
+        }
+        
 
         // Reconstruire le chemin
         List<Tile> chemin = new ArrayList<>();
