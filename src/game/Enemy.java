@@ -53,6 +53,11 @@ public class Enemy {
 
     }
 
+    public boolean estArrive() {
+        return indexChemin >= chemin.size();
+    }
+    
+
     // Implémentation de la méthode getCaseSuivante() pour obtenir la case suivante 'R' proche de la case actuelle sur laquelle l'ennemi vas se déplacer
     private Tile getCaseSuivante(Tile tile) {
         // Utilisation de BFS pour trouver les case 'R' voisines pour arriver à la case 'B'

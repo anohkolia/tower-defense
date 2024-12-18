@@ -40,7 +40,7 @@ public class Game {
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
 
-        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level3.lvl"); // Chargement du niveau depuis le fichier
+        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
 
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
 
@@ -55,6 +55,11 @@ public class Game {
 
         ennemiesActifs = new ArrayList<>();
         vagueEncours = null; // Pas de vague en cours au début
+
+        if (chemin.isEmpty()) {
+            throw new IllegalStateException("Impossible de trouver un chemin entre 'S' et 'B'.");
+        }
+        
     }
 
     private boolean isGameRunning() {
@@ -88,8 +93,8 @@ public class Game {
             Enemy ennemi = iterEnnemis.next();
             ennemi.seDeplacer(deltaTimeSecond);
             
-            if (ennemi.estMort()) {
-                iterEnnemis.remove(); // Supprime les ennemis morts
+            if (ennemi.estMort() || ennemi.estArrive()) {
+                iterEnnemis.remove(); // Supprime les ennemis morts ou arriver
             } else {
                 ennemi.draw();
             }

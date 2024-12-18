@@ -27,6 +27,8 @@ public class GameMap {
                 grid[row][col] = new Tile(this, row, col, tempGrid[row][col]);
             }
         }
+
+        verifierCarte();
     }
 
     private char[][] readMap(String mapFile) {
@@ -49,13 +51,13 @@ public class GameMap {
     public void draw() {
         double tileSize = 700.0 / Math.max(width, height); // Ajustement de la taille des cases en fonction de la taille de la carte
         double startX = 350 - (width / 2.0) * tileSize;
-        double startY = 350 - (height  / 2.0) * tileSize;
+        double startY = 350 - (height / 2.0) * tileSize;
 
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 Tile tile = grid[row][col];
 
-                // Calaule de la position de chaque case
+                // Calcule de la position de chaque case
                 double x = startX + col * tileSize + tileSize / 2;
                 double y = startY + (grid.length - row - 1) * tileSize + tileSize / 2;
 
@@ -79,6 +81,7 @@ public class GameMap {
         }
         throw new IllegalStateException("Aucune case 'S' trouvée sur la carte.");
     }
+
     // Implémentation de la méthode getCaseArrivee() pour obtenir la case d'arrivée 'B' de l'ennemi
     public Tile getCaseArrivee() {
         for (int row = 0; row < grid.length; row++) {
@@ -90,9 +93,8 @@ public class GameMap {
         }
         throw new IllegalStateException("Aucune case 'B' trouvée sur la carte.");
     }
-    
 
-    //-------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
 
     public List<Tile> calculerCheminVersBase() {
         Tile caseDepart = getCaseDepart();
@@ -126,7 +128,6 @@ public class GameMap {
         if (!cameFrom.containsKey(caseArrivee)) {
             throw new IllegalStateException("Aucun chemin trouvé entre 'S' et 'B'.");
         }
-        
 
         // Reconstruire le chemin
         List<Tile> chemin = new ArrayList<>();
@@ -144,17 +145,39 @@ public class GameMap {
         int row = tile.getRow();
         int col = tile.getCol();
 
-        if (row > 0) voisins.add(grid[row - 1][col]); // Haut
-        if (row < height - 1) voisins.add(grid[row + 1][col]); // Bas
-        if (col > 0) voisins.add(grid[row][col - 1]); // Gauche
-        if (col < width - 1) voisins.add(grid[row][col + 1]); // Droite
+        if (row > 0)
+            voisins.add(grid[row - 1][col]); // Haut
+        if (row < height - 1)
+            voisins.add(grid[row + 1][col]); // Bas
+        if (col > 0)
+            voisins.add(grid[row][col - 1]); // Gauche
+        if (col < width - 1)
+            voisins.add(grid[row][col + 1]); // Droite
 
         return voisins;
     }
 
-    //------------------------------------------------------------------------------------------
+    // Vérifie que la carte contient une case de départ S et une case d'arrivée B
+    private void verifierCarte() {
+        int nbSpawn = 0;
+        int nbBase = 0;
 
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                char type = grid[row][col].getType();
+                if (type == 'S')
+                    nbSpawn++;
+                if (type == 'B')
+                    nbBase++;
+            }
+        }
 
+        if (nbSpawn != 1 || nbBase != 1) {
+            throw new IllegalStateException("La carte doit contenir exactement une case 'S' et une case 'B'.");
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------
 
     public int getWidth() {
         return width;
