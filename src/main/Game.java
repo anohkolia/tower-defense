@@ -5,6 +5,7 @@ import game.ChargementVague;
 import game.Enemy;
 import game.GameMap;
 import game.Niveau;
+import game.Player;
 import game.Tile;
 import game.VagueEnnemi;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Game {
     private List<Enemy> ennemiesActifs;
     private Niveau niveau; // Niveau actuel
     private List<VagueEnnemi> vagues; // Liste des vagues du niveau
+    private Player joueur;
 
     public void launch() {
         init();
@@ -39,6 +41,8 @@ public class Game {
         StdDraw.setXscale(-12, 1012);
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
+
+        joueur = new Player(100, 5); // Création du joueur avec 100 pièces d'or et 5 vies
 
         niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
 
@@ -93,19 +97,23 @@ public class Game {
             Enemy ennemi = iterEnnemis.next();
             ennemi.seDeplacer(deltaTimeSecond);
             
-            if (ennemi.estMort() || ennemi.estArrive()) {
-                iterEnnemis.remove(); // Supprime les ennemis morts ou arriver
+            if (ennemi.estArrive()) {
+                iterEnnemis.remove(); // Supprime les ennemis arrivé
+                joueur.perdreVie(); // Le joueur perd une vie
+            } else if (ennemi.estMort()) {
+                iterEnnemis.remove(); // Supprime les ennemis mort
+                joueur.gagnerArgent(ennemi.getReward()); // Le joueur gagne de l'argent
             } else {
                 ennemi.draw();
             }
         }
 
-        StdDraw.show();
+        if (joueur.getVies() <= 0) {
+            System.out.println("Game Over !");
+            System.exit(0);
+        }
 
-        /* // Dessine les ennemis actifs
-        for (Enemy ennemi : ennemiesActifs) {
-            ennemi.draw();
-        } */
+        StdDraw.show();
 
     }
 
