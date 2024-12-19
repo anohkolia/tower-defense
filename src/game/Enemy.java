@@ -13,7 +13,7 @@ public class Enemy {
     private double x, y; // Position de actuelle l'ennemi
     private  int pv;
     private  double speed; // Vitesse de déplacement de l'ennemi
-    private  int reward;
+    private  int reward; // Récompense donnée au joueur lorsqu'il tue l'ennemi
     private Tile caseActuelle; // Case sur laquelle se trouve l'ennemi
     private Tile caseCible; // Case cible vers laquelle se dirige l'ennemi
 

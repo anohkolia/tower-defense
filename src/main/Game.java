@@ -46,6 +46,8 @@ public class Game {
 
         joueur = new Player(100, 5); // Création du joueur avec 100 pièces d'or et 5 vies
 
+        tours = new ArrayList<>();
+
         niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
 
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
@@ -118,9 +120,11 @@ public class Game {
 
         // Gestion des tours
         handleInput();
-        for (Tower tour : tours) {
-            tour.attaquer(ennemiesActifs);
-            tour.draw();
+        if (tours != null) {
+            for (Tower tour : tours) {
+                tour.attaquer(ennemiesActifs);
+                tour.draw();
+            }
         }
 
         drawPlayerInfo();
