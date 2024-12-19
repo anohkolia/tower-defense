@@ -71,6 +71,16 @@ public class Tile {
         } */
     }
 
+    public boolean isInside(double mouseX, double mouseY) {
+        double halfSize = size / 2;
+        return mouseX >= (x - halfSize) && mouseX <= (x + halfSize) &&
+               mouseY >= (y - halfSize) && mouseY <= (y + halfSize);
+    }
+    
+    public boolean isOccupe() {
+        return occupe;
+    }
+
     public double getCenterX() {
         return x; // Retourne la position X du centre de la case
     }
@@ -93,6 +103,10 @@ public class Tile {
 
     public char getType() {
         return type;
+    }
+
+    public void setOccupe(boolean occupe) {
+        this.occupe = occupe;
     }
 
 }

@@ -7,6 +7,7 @@ import game.GameMap;
 import game.Niveau;
 import game.Player;
 import game.Tile;
+import game.Tower;
 import game.VagueEnnemi;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ public class Game {
     private Niveau niveau; // Niveau actuel
     private List<VagueEnnemi> vagues; // Liste des vagues du niveau
     private Player joueur;
+    private List<Tower> tours; // Liste des tours placées sur la carte
 
     public void launch() {
         init();
@@ -63,11 +65,11 @@ public class Game {
         if (chemin.isEmpty()) {
             throw new IllegalStateException("Impossible de trouver un chemin entre 'S' et 'B'.");
         }
-        
+
     }
 
     private boolean isGameRunning() {
-        
+
         return true; // TODO: Modifiable plus tard pour gérer les conditions d'arrêt
     }
 
@@ -85,7 +87,7 @@ public class Game {
                 vagueEncours = null; // La vague est terminée
             }
         }
-        
+
         // Si aucune vague n'est en cours, on lance la prochaine vague
         if (vagueEncours == null && !vagues.isEmpty()) {
             vagueEncours = vagues.remove(0); // Récupère la première vague de la liste
@@ -96,7 +98,7 @@ public class Game {
         while (iterEnnemis.hasNext()) {
             Enemy ennemi = iterEnnemis.next();
             ennemi.seDeplacer(deltaTimeSecond);
-            
+
             if (ennemi.estArrive()) {
                 iterEnnemis.remove(); // Supprime les ennemis arrivé
                 joueur.perdreVie(); // Le joueur perd une vie
@@ -108,10 +110,20 @@ public class Game {
             }
         }
 
+        // Si le joueur n'a plus de vie, c'est la fin du jeu
         if (joueur.getVies() <= 0) {
             System.out.println("Game Over !");
             System.exit(0);
         }
+
+        // Gestion des tours
+        handleInput();
+        for (Tower tour : tours) {
+            tour.attaquer(ennemiesActifs);
+            tour.draw();
+        }
+
+        drawPlayerInfo();
 
         StdDraw.show();
 
@@ -119,19 +131,49 @@ public class Game {
 
     private void drawZones() {
         // Zone Rouge (Progression)
-        
+
         StdDraw.setPenColor(StdDraw.PINK);
         StdDraw.rectangle(856, 688, 144, 12);
-    
+
         // Zone Verte (Joueur)
-        
+
         StdDraw.setPenColor(StdDraw.GREEN);
         StdDraw.rectangle(856, 641, 144, 25);
-    
+
         // Zone Bleue (Magasin)
-        
+
         StdDraw.setPenColor(StdDraw.CYAN);
         StdDraw.rectangle(856, 303, 144, 303);
     }
-    
+
+    private void drawPlayerInfo() {
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.text(856, 641, "Vies: " + joueur.getVies());
+        StdDraw.text(856, 621, "Argent: " + joueur.getArgent() + " €");
+    }
+
+    public void handleInput() {
+        if (StdDraw.isMousePressed()) {
+            double mouseX = StdDraw.mouseX();
+            double mouseY = StdDraw.mouseY();
+
+            for (int row = 0; row < map.getHeight(); row++) {
+                for (int col = 0; col < map.getWidth(); col++) {
+                    Tile tile = map.getTile(row, col);
+                    // Si la case est constructible et non occupée
+                    if (tile.getType() == 'C' && tile.isInside(mouseX, mouseY) && !tile.isOccupe()) {
+                        Tower tour = new Tower(tile, 100, 10, 50); // Exemple : portée 100, dégâts 10, coût 50
+                        if (joueur.depenserArgent(tour.getCout())) {
+                            tours.add(tour);
+                            tile.setOccupe(true);
+                        } else {
+                            System.out.println("Pas assez d'argent pour placer une tour !");
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 }

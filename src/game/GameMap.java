@@ -187,4 +187,8 @@ public class GameMap {
         return height;
     }
 
+    public Tile[][] getGrid() {
+        return grid;
+    }
+
 }
