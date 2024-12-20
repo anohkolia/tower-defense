@@ -6,7 +6,6 @@ import ui.StdDraw;
 public class Tile {
     private final char type; // Type de la case ('S', 'R', 'C', etc.)
     private boolean occupe;      // Indique si la case est occupée par une tour
-    //private Tower tower;           // Tour placée sur la case (null si aucune)
     private double x, y; // Position de la case
     private double size; // Taille de la case
     private int row, col; // Position de la case dans la grille
@@ -18,7 +17,6 @@ public class Tile {
         this.grid = grid;
         this.row = row;
         this.col = col;
-        //this.tower = null;
     }
 
     // initialisation de la position et de la taille de la case
@@ -27,21 +25,6 @@ public class Tile {
         this.y = y;
         this.size = size;
     }
-
-    /* public Tower getTower() {
-        return tower;
-    } */
-
-    /* public void placeTower(Tower tower) {
-        if (type != 'C') {
-            throw new IllegalArgumentException("Une tour ne peut être placée que sur une case constructible (C).");
-        }
-        if (occupied) {
-            throw new IllegalStateException("Cette case est déjà occupée par une tour.");
-        }
-        this.tower = tower;
-        this.occupied = true;
-    } */
 
     public void removeTower() {
         //this.tower = null;
@@ -64,13 +47,9 @@ public class Tile {
         // Dessine le contour de la case
         StdDraw.setPenColor(Color.BLACK);
         StdDraw.square(x, y, size / 2);
-
-        // Si une tour est placée sur cette case, dessine la tour
-        /* if (occupe && tower != null) {
-            tower.draw(x, y); // Méthode draw() de Tower pour dessiner la tour
-        } */
     }
 
+    // Vérifie si les coordonnées (mouseX, mouseY) sont à l'intérieur de la case
     public boolean isInside(double mouseX, double mouseY) {
         double halfSize = size / 2;
         return mouseX >= (x - halfSize) && mouseX <= (x + halfSize) &&

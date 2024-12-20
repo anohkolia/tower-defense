@@ -9,6 +9,7 @@ import game.Player;
 import game.Tile;
 import game.Tower;
 import game.VagueEnnemi;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Game {
 
         tours = new ArrayList<>();
 
-        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
+        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level3.lvl"); // Chargement du niveau depuis le fichier
 
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
 
@@ -114,8 +115,9 @@ public class Game {
 
         // Si le joueur n'a plus de vie, c'est la fin du jeu
         if (joueur.getVies() <= 0) {
-            System.out.println("Game Over !");
-            System.exit(0);
+            drawGameOver();
+            /* System.out.println("Game Over !");
+            System.exit(0); */
         }
 
         // Gestion des tours
@@ -151,9 +153,26 @@ public class Game {
     }
 
     private void drawPlayerInfo() {
-        StdDraw.setPenColor(StdDraw.GREEN);
-        StdDraw.text(856, 641, "Vies: " + joueur.getVies());
-        StdDraw.text(856, 621, "Argent: " + joueur.getArgent() + " €");
+        StdDraw.setPenColor(StdDraw.RED);
+        Font playerInfoFont = new Font("Arial", Font.BOLD, 20);
+        StdDraw.setFont(playerInfoFont);
+        StdDraw.text(760, 641, "Vies: " + joueur.getVies());
+        StdDraw.setPenColor(StdDraw.ORANGE);
+        StdDraw.text(910, 641, "Argent: " + joueur.getArgent() + " Or");
+    }
+
+    private void drawGameOver() {
+        StdDraw.setPenColor(StdDraw.RED);
+
+        // Sauvegarde la police actuelle
+        Font currentFont = StdDraw.getFont();
+
+        Font gameOverFont = new Font("Arial", Font.BOLD, 50);
+        StdDraw.setFont(gameOverFont);
+        StdDraw.text(500, 500, "Game Over !");
+
+        // Restaure la police précédente
+        StdDraw.setFont(currentFont);
     }
 
     public void handleInput() {

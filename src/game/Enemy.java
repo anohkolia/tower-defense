@@ -20,8 +20,9 @@ public class Enemy {
     public Enemy(List<Tile> chemin, double speed, int pv) {
         this.chemin = chemin;
         this.indexChemin = 0; // Commence à la première case du chemin
-        this.x = chemin.get(0).getCenterX();
-        this.y = chemin.get(0).getCenterY();
+        Tile caseDepart = chemin.get(0);
+        this.x = caseDepart.getCenterX();
+        this.y = caseDepart.getCenterY();
         this.speed = speed;
         this.pv = pv;
     }
