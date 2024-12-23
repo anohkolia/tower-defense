@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class VagueEnnemi {
+public class vagueEnnemi {
     private List<Enemy> ennemis;
     private List<Double> tempsApparitionEnnemis;
     private double tempsEcoule; // Temps écoulé depuis le début de la vague
 
-    public VagueEnnemi() {
+    public vagueEnnemi() {
         this.ennemis = new ArrayList<>();
         this.tempsApparitionEnnemis = new ArrayList<>();
         this.tempsEcoule = 0;

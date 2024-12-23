@@ -8,7 +8,7 @@ import game.Niveau;
 import game.Player;
 import game.Tile;
 import game.Tower;
-import game.VagueEnnemi;
+import game.vagueEnnemi;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,10 +18,10 @@ import ui.StdDraw;
 // Gestion de la boucle de jeu et initialisation de la carte.
 public class Game {
     private GameMap map;
-    private VagueEnnemi vagueEncours; // Vague d'ennemis actuellement en cours
+    private vagueEnnemi vagueEncours; // Vague d'ennemis actuellement en cours
     private List<Enemy> ennemiesActifs;
     private Niveau niveau; // Niveau actuel
-    private List<VagueEnnemi> vagues; // Liste des vagues du niveau
+    private List<vagueEnnemi> vagues; // Liste des vagues du niveau
     private Player joueur;
     private List<Tower> tours; // Liste des tours placées sur la carte
     private boolean pause = false;
@@ -64,7 +64,7 @@ public class Game {
         // Chargement des vagues depuis les fichiers
         vagues = new ArrayList<>();
         for (String vagueFile : niveau.getVaguesFiles()) {
-            VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", chemin);
+            vagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", chemin);
             vagues.add(vague);
         }
 
