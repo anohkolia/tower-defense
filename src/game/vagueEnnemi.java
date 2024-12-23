@@ -66,4 +66,6 @@ public class VagueEnnemi {
     public void setTempsEcoule(double tempsEcoule) {
         this.tempsEcoule = tempsEcoule;
     }
+
+    // ceci est un commentaire
 }
