@@ -7,8 +7,8 @@ import java.util.List;
 
 public class ChargementVague {
 
-    public static vagueEnnemi chargerVague(String vagueFile, List<Tile> chemin) {
-        vagueEnnemi vague = new vagueEnnemi(); // Création de nouvelle vague d'ennemis
+    public static VagueEnnemi chargerVague(String vagueFile, List<Tile> chemin) {
+        VagueEnnemi vague = new VagueEnnemi(); // Création de nouvelle vague d'ennemis
 
         try (BufferedReader reader = new BufferedReader(new FileReader(vagueFile))) {
 
