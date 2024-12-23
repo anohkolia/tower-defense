@@ -64,6 +64,8 @@ public class GameMap {
                 // Définit la position et la taille de la case
                 tile.setPosition(x, y, tileSize);
 
+                grid[row][col] = tile;
+
                 // Dessine la case
                 tile.draw();
             }

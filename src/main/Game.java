@@ -24,6 +24,7 @@ public class Game {
     private List<VagueEnnemi> vagues; // Liste des vagues du niveau
     private Player joueur;
     private List<Tower> tours; // Liste des tours placées sur la carte
+    private boolean pause = false;
 
     public void launch() {
         init();
@@ -39,6 +40,11 @@ public class Game {
         }
     }
 
+    // Méthode pour mettre en pause le jeu
+    public void togglePause() {
+        pause = !pause;
+    }
+
     private void init() {
         StdDraw.setCanvasSize(1024, 720);
         StdDraw.setXscale(-12, 1012);
@@ -49,7 +55,7 @@ public class Game {
 
         tours = new ArrayList<>();
 
-        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level3.lvl"); // Chargement du niveau depuis le fichier
+        niveau = ChargementNiveau.chargerNiveau("./resources/levels/level1.lvl"); // Chargement du niveau depuis le fichier
 
         map = new GameMap("./resources/maps/" + niveau.getMapFile() + ".mtp"); //
 

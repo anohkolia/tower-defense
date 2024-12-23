@@ -9,6 +9,11 @@ public class Tower {
     private int portee; // Portée de la tour
     private int degats; // Dégâts infligés par la tour
     private int cout; // Coût de la tour
+    private int pv; // Points de vie de la tour
+    // Temps restant avant de pouvoir attaquer à nouveau
+    private double tempsRecharge;
+    // Temps entre deux attaques
+    private double vitesseAttaque; // 
 
     public Tower(Tile position, int portee, int degats, int cout) {
         this.position = position;
@@ -42,6 +47,15 @@ public class Tower {
                 break; // On attaque un seul ennemi à la fois
             }
         }
+    }
+
+    /**
+     * Méthode pour faire subir des dégâts à la tour
+     * @param degats Les dégâts infligés à la tour
+     */
+    public void subirDegats(int degats) {
+        this.pv -= degats;
+
     }
 
     // Dessine la tour

@@ -131,6 +131,27 @@ public class Enemy {
         }
     } */
 
+    public void barreDeVie() {
+        double ratioVie = Math.max(0, (double) pv / 100);
+        double barreWidth = 20 * ratioVie; // Largeur de la barre de vie
+        double barreHeight = 5; // Hauteur de la barre de vie
+
+        // Dessine la barre de vie
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.filledRectangle(x, y + 15, barreWidth / 2, barreHeight / 2);
+    }
+
+    public void attaquer(List<Tower> tours) {
+        for (Tower tour : tours) {
+            double distance = Math.sqrt(Math.pow(tour.getPosition().getCenterX() - x, 2)
+                            + Math.pow(tour.getPosition().getCenterY() - y, 2));
+            if (distance <= tour.getPortee()) {
+                tour.subirDegats(tour.getDegats());
+                break; // On attaque une seule tour à la fois
+            }
+        }
+    }
+
     public double getX() {
         return x;
     }
