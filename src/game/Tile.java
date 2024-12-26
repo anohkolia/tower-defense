@@ -10,6 +10,7 @@ public class Tile {
     private double size; // Taille de la case
     private int row, col; // Position de la case dans la grille
     private GameMap grid; // Grille de jeu
+    private char[][] tempGrid;
 
     public Tile(GameMap grid, int row, int col, char type) {
         this.type = type;

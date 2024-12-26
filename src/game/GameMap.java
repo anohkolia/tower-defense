@@ -24,7 +24,15 @@ public class GameMap {
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                grid[row][col] = new Tile(this, row, col, tempGrid[row][col]);
+                Tile tmpTile = new Tile(this, row, col, tempGrid[row][col]);
+                // set position of each tile
+                double tileSize = 700.0 / Math.max(width, height);
+                double startX = 350 - (width / 2.0) * tileSize;
+                double startY = 350 - (height / 2.0) * tileSize;
+                double x = startX + col * tileSize + tileSize / 2;
+                double y = startY + (grid.length - row - 1) * tileSize + tileSize / 2;
+                tmpTile.setPosition(x, y,tileSize);
+                grid[row][col] = tmpTile;
             }
         }
 
@@ -49,24 +57,9 @@ public class GameMap {
     }
 
     public void draw() {
-        double tileSize = 700.0 / Math.max(width, height); // Ajustement de la taille des cases en fonction de la taille de la carte
-        double startX = 350 - (width / 2.0) * tileSize;
-        double startY = 350 - (height / 2.0) * tileSize;
-
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 Tile tile = grid[row][col];
-
-                // Calcule de la position de chaque case
-                double x = startX + col * tileSize + tileSize / 2;
-                double y = startY + (grid.length - row - 1) * tileSize + tileSize / 2;
-
-                // Définit la position et la taille de la case
-                tile.setPosition(x, y, tileSize);
-
-                grid[row][col] = tile;
-
-                // Dessine la case
                 tile.draw();
             }
         }

@@ -1,5 +1,7 @@
 package game;
 
+import java.util.List;
+
 public class Player {
     private int argent; // Argent du joueur
     private int vies; // Vies du joueur
@@ -33,6 +35,17 @@ public class Player {
         argent -= montant;
 
         return true;
+    }
+
+    public boolean construireTour(Tile position, List<Tower> tours, int coutTour, int portee, int degats) {
+        if (argent >= coutTour && position.getType() == 'C' && !position.isOccupe()) {
+            Tower nouvelleTour = new Tower(position, portee, degats, coutTour);
+            tours.add(nouvelleTour);
+            position.setOccupe(true); // Marquer la case comme occupée
+            depenserArgent(coutTour);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -181,6 +181,7 @@ public class Game {
         StdDraw.setFont(currentFont);
     }
 
+    // Gestion de l'input de la souris pour placer des tours
     public void handleInput() {
         if (StdDraw.isMousePressed()) {
             double mouseX = StdDraw.mouseX();
