@@ -187,18 +187,10 @@ public class Game {
             double mouseX = StdDraw.mouseX();
             double mouseY = StdDraw.mouseY();
 
-            for (int row = 0; row < map.getHeight(); row++) {
-                for (int col = 0; col < map.getWidth(); col++) {
-                    Tile tile = map.getTile(row, col);
-                    // Si la case est constructible et non occupée
-                    if (tile.getType() == 'C' && tile.isInside(mouseX, mouseY) && !tile.isOccupe()) {
-                        Tower tour = new Tower(tile, 100, 10, 50); // Exemple : portée 100, dégâts 10, coût 50
-                        if (joueur.depenserArgent(tour.getCout())) {
-                            tours.add(tour);
-                            tile.setOccupe(true);
-                        } else {
-                            System.out.println("Pas assez d'argent pour placer une tour !");
-                        }
+            for (Tile[] row : map.getGrid()) {
+                for (Tile tile : row) {
+                    if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 10, 5, 10)) {
+                        System.out.println("Tour placée ! ");
                         break;
                     }
                 }
