@@ -4,6 +4,7 @@ import game.ChargementNiveau;
 import game.ChargementVague;
 import game.Enemy;
 import game.GameMap;
+import game.GestionVagues;
 import game.Niveau;
 import game.Player;
 import game.Tile;
@@ -25,6 +26,7 @@ public class Game {
     private Player joueur;
     private List<Tower> tours; // Liste des tours placées sur la carte
     private boolean pause = false;
+    private GestionVagues gestionVagues; // Gestion des vagues
 
     public void launch() {
         init();
@@ -64,11 +66,13 @@ public class Game {
         // Chargement des vagues depuis les fichiers
         vagues = new ArrayList<>();
         for (String vagueFile : niveau.getVaguesFiles()) {
+            Tile caseApparition = map.getCaseDepart();
+            Tile caseArrivee = map.getCaseArrivee();
             VagueEnnemi vague = ChargementVague.chargerVague("./resources/waves/" + vagueFile + ".wve", chemin);
             vagues.add(vague);
         }
-
         ennemiesActifs = new ArrayList<>();
+        gestionVagues = new GestionVagues(); // Initialisation de gestionVagues
         vagueEncours = null; // Pas de vague en cours au début
 
         if (chemin.isEmpty()) {
@@ -96,6 +100,8 @@ public class Game {
                 vagueEncours = null; // La vague est terminée
             }
         }
+
+        gestionVagues.update(deltaTimeSecond, ennemiesActifs);
 
         // Si aucune vague n'est en cours, on lance la prochaine vague
         if (vagueEncours == null && !vagues.isEmpty()) {
@@ -189,7 +195,7 @@ public class Game {
 
             for (Tile[] row : map.getGrid()) {
                 for (Tile tile : row) {
-                    if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 10, 5, 10)) {
+                    if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 5, 80, 10)) {
                         System.out.println("Tour placée ! ");
                         break;
                     }

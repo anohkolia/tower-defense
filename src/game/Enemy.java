@@ -121,16 +121,6 @@ public class Enemy {
         StdDraw.filledCircle(x, y, 10); // Dessine un cercle rouge de rayon 10
     }
 
-    // Dessine l'ennemi à la position de la case "S"
-    /* public void draw() {
-        if(caseActuelle != null) {
-            double drawX = caseActuelle.getCenterX();
-            double drawY = caseActuelle.getCenterY();
-            StdDraw.setPenColor(StdDraw.RED);
-            StdDraw.filledCircle(drawX, drawY, 10);
-        }
-    } */
-
     public void barreDeVie() {
         double ratioVie = Math.max(0, (double) pv / 100);
         double barreWidth = 20 * ratioVie; // Largeur de la barre de vie
