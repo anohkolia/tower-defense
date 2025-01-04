@@ -44,7 +44,7 @@ public class Game {
 
     // Méthode pour mettre en pause le jeu
     public void togglePause() {
-        pause = !pause;
+        this.pause = !this.pause;
     }
 
     private void init() {
@@ -53,7 +53,7 @@ public class Game {
         StdDraw.setYscale(-10, 710);
         StdDraw.enableDoubleBuffering();
 
-        joueur = new Player(100, 5); // Création du joueur avec 100 pièces d'or et 5 vies
+        this.joueur = new Player(100, 10); // Création du joueur avec 100 pièces d'or et 5 vies
 
         tours = new ArrayList<>();
 
@@ -120,28 +120,48 @@ public class Game {
             } else if (ennemi.estMort()) {
                 iterEnnemis.remove(); // Supprime les ennemis mort
                 joueur.gagnerArgent(ennemi.getReward()); // Le joueur gagne de l'argent
-            } else {
-                ennemi.draw();
             }
         }
-
+        
+        for (Enemy ennemi : ennemiesActifs) {
+            ennemi.draw();
+            ennemi.barreDeVie();
+        }
+        
         // Si le joueur n'a plus de vie, c'est la fin du jeu
         if (joueur.getVies() <= 0) {
             drawGameOver();
-            /* System.out.println("Game Over !");
-            System.exit(0); */
+            //System.exit(0);
         }
 
         // Gestion des tours
         handleInput();
-        if (tours != null) {
-            for (Tower tour : tours) {
-                tour.attaquer(ennemiesActifs);
-                tour.draw();
+        if (!getTours().isEmpty()) {
+            for (Tower tour : getTours()) {
+                //tour.barreDeVie();
+                
+                if (tour.estDetruite()) {
+                    System.out.println("Tour détruite !");
+                }else{
+                    tour.update(deltaTimeSecond, ennemiesActifs);
+                    tour.draw();
+                    if(tour.getPosition().isOccupe() == false){
+
+                        tour.getPosition().setOccupe(true); // Marquer la case comme occupée
+                        joueur.depenserArgent(tour.getCout()); // Dépenser l'argent pour construire la tour
+                    }
+                }
+               
             }
         }
 
+
+        for(Enemy ennemi : ennemiesActifs) {
+            ennemi.update(deltaTimeSecond, tours);
+        }
+
         drawPlayerInfo();
+        afficherStatistiques(1, gestionVagues.getIndiceVagueCourante() + 1, vagues.size() + gestionVagues.getNombreVagues().size());
 
         StdDraw.show();
 
@@ -173,6 +193,15 @@ public class Game {
         StdDraw.text(910, 641, "Argent: " + joueur.getArgent() + " Or");
     }
 
+    // info: Affiche le level actuel et le nombre de vagues restantes
+    private void afficherStatistiques(int level, int vagueCourante, int nombreVagues) {
+        StdDraw.setPenColor(StdDraw.BLACK);
+        Font statistiquesFont = new Font("Arial", Font.BOLD, 20);
+        StdDraw.setFont(statistiquesFont);
+        StdDraw.text(760, 688, "Level: " + level + "/4");
+        StdDraw.text(910, 688, "Vague: " + vagueCourante + "/" + nombreVagues);
+    }
+
     private void drawGameOver() {
         StdDraw.setPenColor(StdDraw.RED);
 
@@ -192,16 +221,24 @@ public class Game {
         if (StdDraw.isMousePressed()) {
             double mouseX = StdDraw.mouseX();
             double mouseY = StdDraw.mouseY();
-
             for (Tile[] row : map.getGrid()) {
                 for (Tile tile : row) {
-                    if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 5, 80, 10)) {
-                        System.out.println("Tour placée ! ");
-                        break;
+                    if (tile.isInside(mouseX, mouseY)) {
+                        Tower tour = joueur.construireTour(tile, 10, 10, 10);
+                        
+                        if (tour != null && tour.getPosition().isOccupe() == false ) {
+                            this.tours.add(tour);
+                            System.out.println("Tour placée ! ");
+                        }
+                    
+                        // break;
                     }
                 }
             }
         }
     }
-
+    
+    public List<Tower> getTours() {
+        return this.tours;
+    }
 }

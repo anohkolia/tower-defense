@@ -14,8 +14,14 @@ public class Enemy {
     private  int pv;
     private  double speed; // Vitesse de déplacement de l'ennemi
     private  int reward; // Récompense donnée au joueur lorsqu'il tue l'ennemi
+    private int portee;
+    private int degats;
     private Tile caseActuelle; // Case sur laquelle se trouve l'ennemi
     private Tile caseCible; // Case cible vers laquelle se dirige l'ennemi
+    // Temps restant avant de pouvoir attaquer à nouveau
+    private double tempsRecharge;
+    // Temps entre deux attaques
+    private double vitesseAttaque;
 
     public Enemy(List<Tile> chemin, double speed, int pv) {
         this.chemin = chemin;
@@ -26,6 +32,46 @@ public class Enemy {
         this.speed = speed;
         this.pv = pv;
     }
+    
+    public Enemy(double vitesseAttaque) {
+        this.vitesseAttaque = vitesseAttaque;
+        this.tempsRecharge = 0;
+    }
+
+    public void update(double deltaTimeSecond, List<Tower> tours) {
+        if (tempsRecharge > 0) {
+            tempsRecharge -= deltaTimeSecond;
+        }
+
+        if (tempsRecharge <= 0) {
+            Tower tourCible = trouverCible(tours);
+            if (tourCible != null) {
+                attaquer(tours);
+                tempsRecharge = vitesseAttaque;
+            }
+        }
+    }
+
+    public Tower trouverCible(List<Tower> tours) {
+        // Logique pour trouver la tour dans la portée
+        Tower tourLaPlusProche = null; // Tour la plus proche
+        double minDistance = Double.MAX_VALUE;
+
+        for (Tower tour : tours) {
+            double distance = Math.sqrt(Math.pow(tour.getPosition().getCenterX() - x, 2)
+                            + Math.pow(tour.getPosition().getCenterY() - y, 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                tourLaPlusProche = tour;
+            }
+        }
+
+        return tourLaPlusProche;
+    }
+
+    // public void attaquer(Tower tour) {
+    //     tour.subirDegats(10);
+    // }
 
     public void seDeplacer(double deltaTimeSecond) {
         // Il n'y a pas de case suivante, l'ennemi est arrivé à destination
@@ -160,5 +206,21 @@ public class Enemy {
 
     public int getReward() {
         return reward;
+    }
+
+    public int getPortee() {
+        return portee;
+    }
+
+    public void setPortee(int portee) {
+        this.portee = portee;
+    }
+
+    public int getDegats() {
+        return degats;
+    }
+
+    public void setDegats(int degats) {
+        this.degats = degats;
     }
 }

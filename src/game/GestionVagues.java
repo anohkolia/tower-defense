@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestionVagues {
-    private List<VagueEnnemi> vagues;
+    private List<VagueEnnemi> nombreVagues;
     private int indiceVagueCourante; // Indice de la vague courante
     private double tempsEcoule; // Temps écoulé depuis le début de la vague
 
     public GestionVagues() {
-        this.vagues = new ArrayList<>();
+        this.nombreVagues = new ArrayList<>();
         this.indiceVagueCourante = 0;
         this.tempsEcoule = 0;
     }
 
-    public void ajouterVague(VagueEnnemi vague) {
-        this.vagues.add(vague);
+    public void ajouterVague(VagueEnnemi nombreVagues) {
+        this.nombreVagues.add(nombreVagues);
     }
 
     public void update(double deltaTimeSecond, List<Enemy> ennemisActifs) {
-        if (indiceVagueCourante < vagues.size()) {
-            VagueEnnemi vagueCourante = vagues.get(indiceVagueCourante);
+        if (indiceVagueCourante < nombreVagues.size()) {
+            VagueEnnemi vagueCourante = nombreVagues.get(indiceVagueCourante);
             vagueCourante.update(deltaTimeSecond, ennemisActifs);
 
             if (vagueCourante.estTerminee()) {
@@ -33,15 +33,15 @@ public class GestionVagues {
     }
 
     public boolean jeuTerminee() {
-        return indiceVagueCourante >= vagues.size();
+        return indiceVagueCourante >= nombreVagues.size();
     }
 
-    public List<VagueEnnemi> getVagues() {
-        return vagues;
+    public List<VagueEnnemi> getNombreVagues() {
+        return nombreVagues;
     }
 
-    public void setVagues(List<VagueEnnemi> vagues) {
-        this.vagues = vagues;
+    public void setNombreVagues(List<VagueEnnemi> nombreVagues) {
+        this.nombreVagues = nombreVagues;
     }
 
     public int getIndiceVagueCourante() {

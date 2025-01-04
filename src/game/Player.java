@@ -37,18 +37,17 @@ public class Player {
         return true;
     }
 
-    public boolean construireTour(Tile position, List<Tower> tours, int coutTour, int portee, int degats) {
+    public Tower construireTour(Tile position, int coutTour, int portee, int degats) {
         // Vérifier si le joueur a assez d'argent pour construire la tour
         if (argent >= coutTour && position.getType() == 'C') {
-            Tower nouvelleTour = new Tower(position, portee, degats, coutTour);
-            tours.add(nouvelleTour);
-            position.setOccupe(true); // Marquer la case comme occupée
-            depenserArgent(coutTour);
-            return true;
+            Tower nouvelleTour = new Tower(position, portee, degats, coutTour, 10,10);
+            // tours.add(nouvelleTour);
+            return nouvelleTour;
         }else if (!position.isOccupe()) {
             System.out.println("Pas assez d'argent ou case occupé !");
         }
-        return false;
+        // return false
+        return null;
     }
 
 }

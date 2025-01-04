@@ -34,7 +34,7 @@ public class Tile {
 
     public void draw() {
         // Dessine la case avec la couleur correspondant à son type
-        switch (type) {
+        switch (getType()) {
             case 'S': StdDraw.setPenColor(Color.RED); break;             // Spawn
             case 'B': StdDraw.setPenColor(Color.YELLOW); break;          // Base
             case 'R': StdDraw.setPenColor(new Color(194, 178, 128)); break; // Route
@@ -82,7 +82,7 @@ public class Tile {
     }
 
     public char getType() {
-        return type;
+        return this.type;
     }
 
     public void setOccupe(boolean occupe) {
