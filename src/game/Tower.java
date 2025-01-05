@@ -75,7 +75,7 @@ public class Tower {
     public void attaquer(List<Enemy> ennemis) {
         for (Enemy ennemi : ennemis) {
             if (estDansPortee(ennemi)) {
-                ennemi.subirDegats(10);
+                ennemi.subirDegats(degats);
                 break; // On attaque un seul ennemi à la fois
             }
         }
@@ -88,17 +88,20 @@ public class Tower {
         double barreX = position.getCenterX(); // Position X de la barre
         double barreY = position.getCenterY() + 27; // Position Y de la barre (au-dessus de la tour)
 
-         // Dessine le contour noir
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.filledRectangle(barreX, barreY, (barreWidth / 2) + 1, (barreHeight / 2) + 1); // Ajout d'une marge pour le contour
+        // Largeur de la barre verte (selon la vie restante)
+        double barreVieWidth = barreWidth * ratioVie;
 
-        // Dessine la barre de vie en arrière-plan (rouge)
-        StdDraw.setPenColor(StdDraw.RED);//couleur de la barre de vie
+        // Dessine la barre rouge (arrière-plan, vie totale)
+        StdDraw.setPenColor(StdDraw.RED);
         StdDraw.filledRectangle(barreX, barreY, barreWidth / 2, barreHeight / 2);
 
-        // Dessine la barre de vie actuelle (verte)
+        // Dessine la barre verte (vie restante)
         StdDraw.setPenColor(StdDraw.GREEN);
-        StdDraw.filledRectangle(barreX - (1 - ratioVie) * barreWidth / 2, barreY, (barreWidth * ratioVie) / 2, barreHeight / 2);
+        StdDraw.filledRectangle(barreX - (barreWidth - barreVieWidth) / 2, barreY, barreVieWidth / 2, barreHeight / 2);
+
+        // Ajout d'un contour noir autour de la barre
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.rectangle(barreX, barreY, barreWidth / 2, barreHeight / 2);
     }
 
     /**

@@ -12,6 +12,7 @@ public class Enemy {
     private int indexChemin;
     private double x, y; // Position de actuelle l'ennemi
     private  int pv;
+    private int pvMax;
     private  double speed; // Vitesse de déplacement de l'ennemi
     private  int reward; // Récompense donnée au joueur lorsqu'il tue l'ennemi
     private int portee;
@@ -23,7 +24,7 @@ public class Enemy {
     // Temps entre deux attaques
     private double vitesseAttaque;
 
-    public Enemy(List<Tile> chemin, double speed, double vitesseAttaque, int pv, int reward, int portee, int degats) {
+    public Enemy(List<Tile> chemin, double speed, double vitesseAttaque, int pv, int pvMax, int reward, int portee, int degats) {
         this.chemin = chemin;
         this.indexChemin = 0; // Commence à la première case du chemin
         Tile caseDepart = chemin.get(0);
@@ -32,6 +33,7 @@ public class Enemy {
         this.speed = speed;
         this.vitesseAttaque = vitesseAttaque;
         this.pv = pv;
+        this.pvMax = pvMax;
         this.reward = reward;
         this.portee = portee;
         this.degats = degats;
@@ -73,9 +75,19 @@ public class Enemy {
         return tourLaPlusProche;
     }
 
-    // public void attaquer(Tower tour) {
-    //     tour.subirDegats(10);
-    // }
+    public boolean estDansPortee(Tower tour) {
+        double distance = Math.sqrt(Math.pow(tour.getPosition().getCenterX() - x, 2)
+                        + Math.pow(tour.getPosition().getCenterY() - y, 2));
+        return distance <= portee;
+    }
+
+    public void attaquer(List<Tower> tours) {
+        for (Tower tour : tours) {
+            if (estDansPortee(tour)) {
+                tour.subirDegats(degats);
+            }
+        }
+    }
 
     public void seDeplacer(double deltaTimeSecond) {
         // Il n'y a pas de case suivante, l'ennemi est arrivé à destination
@@ -172,7 +184,7 @@ public class Enemy {
     }
 
     public void barreDeVie() {
-        double ratioVie = Math.max(0, (double) pv / 100); // Ratio de vie (entre 0 et 1)
+        double ratioVie = Math.max(0, (double) pv / pvMax); // Ratio de vie (entre 0 et 1)
         double barreWidth = 20; // Largeur totale de la barre de vie (en pixels)
         double barreHeight = 5; // Hauteur de la barre de vie (en pixels)
         double barreWidthVerte = barreWidth * ratioVie; // Largeur de la barre verte (selon la vie restante)
@@ -190,16 +202,6 @@ public class Enemy {
         StdDraw.rectangle(x, y + 15, barreWidth / 2, barreHeight / 2);
     }
 
-    public void attaquer(List<Tower> tours) {
-        for (Tower tour : tours) {
-            double distance = Math.sqrt(Math.pow(tour.getPosition().getCenterX() - x, 2)
-                            + Math.pow(tour.getPosition().getCenterY() - y, 2));
-            if (distance <= tour.getPortee()) {
-                tour.subirDegats(getDegats());
-                break; // On attaque une seule tour à la fois
-            }
-        }
-    }
 
     public double getX() {
         return x;

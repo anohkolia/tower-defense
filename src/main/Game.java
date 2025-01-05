@@ -237,6 +237,7 @@ public class Game {
         }
     } */
 
+    // Gestion de l'input de la souris pour placer des tours
     public void handleInput() {
         if (StdDraw.isMousePressed()) {
             if (!clicEnCours) { // Si c'est un nouveau clic
