@@ -35,15 +35,15 @@ public class ChargementVague {
     private static Enemy creerEnnemi(String typeEnnemi, List<Tile> chemin) {
         switch (typeEnnemi) {
             case "Basic":
-                return new Enemy(chemin, 50, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 40, 2, 10, 1, 0, 3); // Vitesse de 50 et 100 points de vie
             case "FireBasic":
-                return new Enemy(chemin, 50, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
             case "WaterBasic":
-                return new Enemy(chemin, 50, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
             case "EarthBasic":
-                return new Enemy(chemin, 50, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
             case "AirBasic":
-                return new Enemy(chemin, 50, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
             default:
                 throw new IllegalArgumentException("Type d'ennemi inconnu : " + typeEnnemi);
         }

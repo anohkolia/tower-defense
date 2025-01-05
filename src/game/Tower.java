@@ -9,19 +9,23 @@ public class Tower {
     private int degats; // Dégâts infligés par la tour
     private int cout; // Coût de la tour
     private int pv; // Points de vie de la tour
+    private int pvMax; // Points de vie maximum de la tour
+    private boolean tourPosee; // Indique si la tour est détruite
     // Temps restant avant de pouvoir attaquer à nouveau
     private double tempsRecharge;
     // Temps entre deux attaques
     private double vitesseAttaque;
 
-    public Tower(Tile position, int portee, int degats, int cout, int pv, double vitesseAttaque) {
+    public Tower(Tile position, int portee, int degats, int cout, int pv, int pvMax, double vitesseAttaque, boolean tourPosee) {
         this.position = position;
         this.portee = portee;
         this.degats = degats;
         this.cout = cout;
         this.pv = pv;
+        this.pvMax = pvMax;
         this.vitesseAttaque = vitesseAttaque;
         this.tempsRecharge = 0;
+        this.tourPosee = tourPosee;
     }
 
     public Tower(double vitesseAttaque) {
@@ -78,7 +82,23 @@ public class Tower {
     }
 
     public void barreDeVie() {
-        
+        double ratioVie = Math.max(0, (double) pv / pvMax); // Ratio de vie
+        double barreWidth = 62; // Largeur totale de la barre
+        double barreHeight = 5; // Hauteur de la barre
+        double barreX = position.getCenterX(); // Position X de la barre
+        double barreY = position.getCenterY() + 27; // Position Y de la barre (au-dessus de la tour)
+
+         // Dessine le contour noir
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.filledRectangle(barreX, barreY, (barreWidth / 2) + 1, (barreHeight / 2) + 1); // Ajout d'une marge pour le contour
+
+        // Dessine la barre de vie en arrière-plan (rouge)
+        StdDraw.setPenColor(StdDraw.RED);//couleur de la barre de vie
+        StdDraw.filledRectangle(barreX, barreY, barreWidth / 2, barreHeight / 2);
+
+        // Dessine la barre de vie actuelle (verte)
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.filledRectangle(barreX - (1 - ratioVie) * barreWidth / 2, barreY, (barreWidth * ratioVie) / 2, barreHeight / 2);
     }
 
     /**
@@ -92,8 +112,14 @@ public class Tower {
 
     // Dessine la tour
     public void draw() {
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledSquare(position.getCenterX(), position.getCenterY(), 10); // Dessin de la tour
+        // Dessine le contour jaune si la tour est posée
+        if (tourPosee) {
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            StdDraw.rectangle(position.getCenterX(), position.getCenterY(), 35, 35); // Contour jaune légèrement plus grand que la case
+        }
+
+        StdDraw.setPenColor(StdDraw.YELLOW);
+        StdDraw.filledCircle(position.getCenterX(), position.getCenterY(), 20); // Dessine un cercle rouge de rayon 10
     }
 
     public boolean estDetruite() {
@@ -119,4 +145,18 @@ public class Tower {
     public double getTempsRecharge() {
         return tempsRecharge;
     }
+
+    public double getVitesseAttaque() {
+        return vitesseAttaque;
+    }
+
+    public int getPvMax() {
+        return pvMax;
+    }
+
+    public boolean getTourPosee() {
+        return tourPosee;
+    }
+
+    
 }

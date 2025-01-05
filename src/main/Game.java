@@ -19,6 +19,7 @@ import ui.StdDraw;
 // Gestion de la boucle de jeu et initialisation de la carte.
 public class Game {
     private GameMap map;
+    private boolean clicEnCours;
     private VagueEnnemi vagueEncours; // Vague d'ennemis actuellement en cours
     private List<Enemy> ennemiesActifs;
     private Niveau niveau; // Niveau actuel
@@ -138,7 +139,7 @@ public class Game {
         handleInput();
         if (!getTours().isEmpty()) {
             for (Tower tour : getTours()) {
-                //tour.barreDeVie();
+                tour.barreDeVie();
                 
                 if (tour.estDetruite()) {
                     System.out.println("Tour détruite !");
@@ -156,9 +157,9 @@ public class Game {
         }
 
 
-        for(Enemy ennemi : ennemiesActifs) {
+        /* for(Enemy ennemi : ennemiesActifs) {
             ennemi.update(deltaTimeSecond, tours);
-        }
+        } */
 
         drawPlayerInfo();
         afficherStatistiques(1, gestionVagues.getIndiceVagueCourante() + 1, vagues.size() + gestionVagues.getNombreVagues().size());
@@ -217,24 +218,45 @@ public class Game {
     }
 
     // Gestion de l'input de la souris pour placer des tours
-    public void handleInput() {
+   /*  public void handleInput() {
         if (StdDraw.isMousePressed()) {
             double mouseX = StdDraw.mouseX();
             double mouseY = StdDraw.mouseY();
             for (Tile[] row : map.getGrid()) {
                 for (Tile tile : row) {
                     if (tile.isInside(mouseX, mouseY)) {
-                        Tower tour = joueur.construireTour(tile, 10, 10, 10);
+                        Tower tour = joueur.construireTour(tile, 10, 100, 10, 30,30, 0.1);
                         
                         if (tour != null && tour.getPosition().isOccupe() == false ) {
                             this.tours.add(tour);
                             System.out.println("Tour placée ! ");
                         }
-                    
-                        // break;
                     }
                 }
             }
+        }
+    } */
+
+    public void handleInput() {
+        if (StdDraw.isMousePressed()) {
+            if (!clicEnCours) { // Si c'est un nouveau clic
+                clicEnCours = true;
+                double mouseX = StdDraw.mouseX();
+                double mouseY = StdDraw.mouseY();
+
+                for (Tile[] row : map.getGrid()) {
+                    for (Tile tile : row) {
+                        // Essayer de construire une tour
+                        if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 10, 100, 10)) {
+                            System.out.println("Tour placée !");
+                            return; // Arrêter après avoir placé une tour
+                        }
+                    }
+                }
+            }
+        } else {
+            // Réinitialiser le drapeau lorsque le clic est relâché
+            clicEnCours = false;
         }
     }
     

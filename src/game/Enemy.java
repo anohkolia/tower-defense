@@ -23,14 +23,18 @@ public class Enemy {
     // Temps entre deux attaques
     private double vitesseAttaque;
 
-    public Enemy(List<Tile> chemin, double speed, int pv) {
+    public Enemy(List<Tile> chemin, double speed, double vitesseAttaque, int pv, int reward, int portee, int degats) {
         this.chemin = chemin;
         this.indexChemin = 0; // Commence à la première case du chemin
         Tile caseDepart = chemin.get(0);
         this.x = caseDepart.getCenterX();
         this.y = caseDepart.getCenterY();
         this.speed = speed;
+        this.vitesseAttaque = vitesseAttaque;
         this.pv = pv;
+        this.reward = reward;
+        this.portee = portee;
+        this.degats = degats;
     }
     
     public Enemy(double vitesseAttaque) {
@@ -172,6 +176,9 @@ public class Enemy {
         double barreWidth = 20 * ratioVie; // Largeur de la barre de vie
         double barreHeight = 5; // Hauteur de la barre de vie
 
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.filledRectangle(x, y + 15, (barreWidth / 2) + 1, (barreHeight / 2) + 1); // Ajout d'une marge pour le contour
+
         // Dessine la barre de vie
         StdDraw.setPenColor(StdDraw.GREEN);
         StdDraw.filledRectangle(x, y + 15, barreWidth / 2, barreHeight / 2);
@@ -182,7 +189,7 @@ public class Enemy {
             double distance = Math.sqrt(Math.pow(tour.getPosition().getCenterX() - x, 2)
                             + Math.pow(tour.getPosition().getCenterY() - y, 2));
             if (distance <= tour.getPortee()) {
-                tour.subirDegats(tour.getDegats());
+                tour.subirDegats(getDegats());
                 break; // On attaque une seule tour à la fois
             }
         }
