@@ -172,16 +172,22 @@ public class Enemy {
     }
 
     public void barreDeVie() {
-        double ratioVie = Math.max(0, (double) pv / 100);
-        double barreWidth = 20 * ratioVie; // Largeur de la barre de vie
-        double barreHeight = 5; // Hauteur de la barre de vie
-
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.filledRectangle(x, y + 15, (barreWidth / 2) + 1, (barreHeight / 2) + 1); // Ajout d'une marge pour le contour
-
-        // Dessine la barre de vie
-        StdDraw.setPenColor(StdDraw.GREEN);
+        double ratioVie = Math.max(0, (double) pv / 100); // Ratio de vie (entre 0 et 1)
+        double barreWidth = 20; // Largeur totale de la barre de vie (en pixels)
+        double barreHeight = 5; // Hauteur de la barre de vie (en pixels)
+        double barreWidthVerte = barreWidth * ratioVie; // Largeur de la barre verte (selon la vie restante)
+    
+        // Dessine la barre rouge (arrière-plan, vie totale)
+        StdDraw.setPenColor(StdDraw.RED);
         StdDraw.filledRectangle(x, y + 15, barreWidth / 2, barreHeight / 2);
+    
+        // Dessine la barre verte (vie restante)
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.filledRectangle(x - (barreWidth - barreWidthVerte) / 2, y + 15, barreWidthVerte / 2, barreHeight / 2);
+    
+        // Ajout d'un contour noir autour de la barre
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.rectangle(x, y + 15, barreWidth / 2, barreHeight / 2);
     }
 
     public void attaquer(List<Tower> tours) {

@@ -35,7 +35,7 @@ public class ChargementVague {
     private static Enemy creerEnnemi(String typeEnnemi, List<Tile> chemin) {
         switch (typeEnnemi) {
             case "Basic":
-                return new Enemy(chemin, 40, 2, 10, 1, 0, 3); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 40, 2, 100, 1, 0, 3); // Vitesse de 50 et 100 points de vie
             case "FireBasic":
                 return new Enemy(chemin, 50, 2, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
             case "WaterBasic":
