@@ -121,6 +121,8 @@ public class Game {
             } else if (ennemi.estMort()) {
                 iterEnnemis.remove(); // Supprime les ennemis mort
                 joueur.gagnerArgent(ennemi.getReward()); // Le joueur gagne de l'argent
+            } else {
+                ennemi.attaquer(tours);
             }
         }
         

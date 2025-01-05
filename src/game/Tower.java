@@ -110,7 +110,17 @@ public class Tower {
      */
     public void subirDegats(int degats) {
         this.pv -= degats;
+        if (this.pv <= 0) {
+            tourDetruire();
+        }
 
+    }
+
+    /**
+     * Méthode pour détruire la tour
+     */
+    public void tourDetruire() {
+        this.tourPosee = false;
     }
 
     // Dessine la tour
