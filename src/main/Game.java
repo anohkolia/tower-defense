@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import ui.StdDraw;
 
 // Gestion de la boucle de jeu et initialisation de la carte.
@@ -28,6 +29,7 @@ public class Game {
     private List<Tower> tours; // Liste des tours placées sur la carte
     private boolean pause = false;
     private GestionVagues gestionVagues; // Gestion des vagues
+    private List<Tile> positionsToursDetruites = new ArrayList<>(); // Positions des tours détruites
 
     public void launch() {
         init();
@@ -41,11 +43,6 @@ public class Game {
 
             update(deltaTimeSecond);
         }
-    }
-
-    // Méthode pour mettre en pause le jeu
-    public void togglePause() {
-        this.pause = !this.pause;
     }
 
     private void init() {
@@ -102,7 +99,7 @@ public class Game {
             }
         }
 
-        gestionVagues.update(deltaTimeSecond, ennemiesActifs);
+        //gestionVagues.update(deltaTimeSecond, ennemiesActifs);
 
         // Si aucune vague n'est en cours, on lance la prochaine vague
         if (vagueEncours == null && !vagues.isEmpty()) {
@@ -130,38 +127,57 @@ public class Game {
             ennemi.draw();
             ennemi.barreDeVie();
         }
-        
-        // Si le joueur n'a plus de vie, c'est la fin du jeu
-        if (joueur.getVies() <= 0) {
-            drawGameOver();
-            //System.exit(0);
-        }
 
         // Gestion des tours
         handleInput();
+
         if (!getTours().isEmpty()) {
-            for (Tower tour : getTours()) {
-                tour.barreDeVie();
-                
+            ListIterator<Tower> iterTours = getTours().listIterator();
+            while (iterTours.hasNext()) {
+                Tower tour = iterTours.next();
+
                 if (tour.estDetruite()) {
                     System.out.println("Tour détruite !");
-                }else{
+                    Tile positionTourDetruite = tour.getPosition();
+                    iterTours.remove(); // Supprime la tour détruite
+
+                    // Enregistrer la position de la tour détruite pour la construction future
+                    positionTourDetruite.setOccupe(false); // Marquer la case comme non occupée
+                    positionsToursDetruites.add(positionTourDetruite);
+                } else {
                     tour.update(deltaTimeSecond, ennemiesActifs);
                     tour.draw();
-                    if(tour.getPosition().isOccupe() == false){
-
-                        tour.getPosition().setOccupe(true); // Marquer la case comme occupée
+                    tour.barreDeVie();
+                    if (!tour.getPosition().isOccupe()) {
                         joueur.depenserArgent(tour.getCout()); // Dépenser l'argent pour construire la tour
                     }
                 }
-               
             }
         }
 
+        // Vérifier si un clic a été effectué pour construire une nouvelle tour
+        if (StdDraw.isMousePressed()) {
+            double mouseX = StdDraw.mouseX();
+            double mouseY = StdDraw.mouseY();
 
-        /* for(Enemy ennemi : ennemiesActifs) {
-            ennemi.update(deltaTimeSecond, tours);
-        } */
+            for (Tile position : positionsToursDetruites) {
+                if (position.contains(mouseX, mouseY)) {
+                    // Construire une nouvelle tour à cette position
+                    Tower nouvelleTour = new Tower(position, 10, 80, 5, 30, 30, 0.1, true);
+                    getTours().add(nouvelleTour);
+                    position.setOccupe(true); // Marquer la case comme occupée
+                    positionsToursDetruites.remove(position);
+                    break;
+                }
+            }
+        }
+
+        // Si le joueur n'a plus de vie, le jeu s'arrête et affiche "Game Over" sans fermer la fenêtre
+        if (joueur.getVies() <= 0) {
+            drawGameOver();
+            return;
+        }
+
 
         drawPlayerInfo();
         afficherStatistiques(1, gestionVagues.getIndiceVagueCourante() + 1, vagues.size() + gestionVagues.getNombreVagues().size());
@@ -220,26 +236,6 @@ public class Game {
     }
 
     // Gestion de l'input de la souris pour placer des tours
-   /*  public void handleInput() {
-        if (StdDraw.isMousePressed()) {
-            double mouseX = StdDraw.mouseX();
-            double mouseY = StdDraw.mouseY();
-            for (Tile[] row : map.getGrid()) {
-                for (Tile tile : row) {
-                    if (tile.isInside(mouseX, mouseY)) {
-                        Tower tour = joueur.construireTour(tile, 10, 100, 10, 30,30, 0.1);
-                        
-                        if (tour != null && tour.getPosition().isOccupe() == false ) {
-                            this.tours.add(tour);
-                            System.out.println("Tour placée ! ");
-                        }
-                    }
-                }
-            }
-        }
-    } */
-
-    // Gestion de l'input de la souris pour placer des tours
     public void handleInput() {
         if (StdDraw.isMousePressed()) {
             if (!clicEnCours) { // Si c'est un nouveau clic
@@ -250,7 +246,7 @@ public class Game {
                 for (Tile[] row : map.getGrid()) {
                     for (Tile tile : row) {
                         // Essayer de construire une tour
-                        if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 10, 100, 10)) {
+                        if (tile.isInside(mouseX, mouseY) && joueur.construireTour(tile, tours, 10, 80, 5)) {
                             System.out.println("Tour placée !");
                             return; // Arrêter après avoir placé une tour
                         }

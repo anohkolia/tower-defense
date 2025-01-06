@@ -110,10 +110,6 @@ public class Tower {
      */
     public void subirDegats(int degats) {
         this.pv -= degats;
-        if (this.pv <= 0) {
-            tourDetruire();
-        }
-
     }
 
     /**
@@ -133,6 +129,8 @@ public class Tower {
 
         StdDraw.setPenColor(StdDraw.YELLOW);
         StdDraw.filledCircle(position.getCenterX(), position.getCenterY(), 20); // Dessine un cercle rouge de rayon 10
+
+        
     }
 
     public boolean estDetruite() {

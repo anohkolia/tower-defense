@@ -56,6 +56,10 @@ public class Tile {
         return mouseX >= (x - halfSize) && mouseX <= (x + halfSize) &&
                mouseY >= (y - halfSize) && mouseY <= (y + halfSize);
     }
+
+    public boolean contains(double mouseX, double mouseY) {
+        return mouseX >= x && mouseX <= x + size && mouseY >= y && mouseY <= y + size;
+    }
     
     public boolean isOccupe() {
         return occupe;

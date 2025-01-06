@@ -2,7 +2,8 @@ package game;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;import java.util.List;
+import java.io.IOException;
+import java.util.List;
 
 public class ChargementVague {
 
@@ -35,15 +36,15 @@ public class ChargementVague {
     private static Enemy creerEnnemi(String typeEnnemi, List<Tile> chemin) {
         switch (typeEnnemi) {
             case "Basic":
-                return new Enemy(chemin, 40, 0.1, 100, 100, 1, 100, 100); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 40, 0.1, 10, 10, 1, 80, 3);
             case "FireBasic":
-                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); 
             case "WaterBasic":
-                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7);
             case "EarthBasic":
-                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7);
             case "AirBasic":
-                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); // Vitesse de 50 et 100 points de vie
+                return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7);
             default:
                 throw new IllegalArgumentException("Type d'ennemi inconnu : " + typeEnnemi);
         }
