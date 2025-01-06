@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import tours.Archer;
+import tours.EarthCaster;
+import tours.FireCaster;
+import tours.WaterCaster;
+import tours.WindCaster;
 import ui.StdDraw;
 
 // Gestion de la boucle de jeu et initialisation de la carte.
@@ -88,8 +93,13 @@ public class Game {
         StdDraw.clear();
 
         drawZones();
+        drawShop();
 
-        map.draw(); // Appel la méthode draw de pour afficher la carte
+        drawSelectedTower();
+
+        handleShopInput();
+
+        map.draw(); // Appel la méthode draw pour afficher la carte
 
         if (vagueEncours != null) {
             vagueEncours.update(deltaTimeSecond, ennemiesActifs);
@@ -236,7 +246,7 @@ public class Game {
     }
 
     // Gestion de l'input de la souris pour placer des tours
-    public void handleInput() {
+    /* private void handleInput() {
         if (StdDraw.isMousePressed()) {
             if (!clicEnCours) { // Si c'est un nouveau clic
                 clicEnCours = true;
@@ -257,7 +267,118 @@ public class Game {
             // Réinitialiser le drapeau lorsque le clic est relâché
             clicEnCours = false;
         }
+    } */
+
+
+   private void handleInput() {
+        if (selectedTower != null && StdDraw.isMousePressed()) {
+            if (!clicEnCours) { // Si c'est un nouveau clic
+                clicEnCours = true;
+                double mouseX = StdDraw.mouseX();
+                double mouseY = StdDraw.mouseY();
+    
+                for (Tile[] row : map.getGrid()) {
+                    for (Tile tile : row) {
+                        // Essayer de construire une tour
+                        if (tile.isInside(mouseX, mouseY) && !tile.isOccupe() && joueur.getArgent() >= selectedTower.getCout()) {
+                            selectedTower.setPosition(tile);
+                            tours.add(selectedTower);
+                            tile.setOccupe(true);
+                            joueur.depenserArgent(selectedTower.getCout());
+                            selectedTower = null; // Réinitialiser la sélection
+                            return; // Arrêter après avoir placé une tour
+                        }
+                    }
+                }
+            }
+        } else {
+            // Réinitialiser le drapeau lorsque le clic est relâché
+            clicEnCours = false;
+        }
     }
+
+
+
+    // Dessine la boutique
+    private void drawShop() {
+        // Dessiner la zone de la boutique
+        StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+        StdDraw.filledRectangle(856, 303, 144, 303);
+    
+        // Afficher les différentes tours
+        StdDraw.setPenColor(StdDraw.YELLOW);
+        StdDraw.filledCircle(740, 580, 20);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(830, 580, "Archer - 20 Or");
+    
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledCircle(740, 520, 20);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(855, 520, "WindCaster - 50 Or");
+
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledCircle(740, 460, 20);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(855, 460, "WaterCaster - 50 Or");
+
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.filledCircle(740, 400, 20);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(855, 400, "EarthCaster - 100 Or");
+
+        StdDraw.setPenColor(StdDraw.ORANGE);
+        StdDraw.filledCircle(740, 340, 20);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(855, 340, "FireCaster - 100 Or");
+    }
+    
+    // Gestion de la boutique
+    private Tower selectedTower = null;
+    public void handleShopInput() {
+        if (StdDraw.isMousePressed()) {
+            double mouseX = StdDraw.mouseX();
+            double mouseY = StdDraw.mouseY();
+
+            // Vérifier si le joueur clique sur une tour en comparant la distance entre le
+            // clic et le centre du cercle
+            double distanceArcher = Math.sqrt(Math.pow(mouseX - 740, 2) + Math.pow(mouseY - 580, 2));
+            if (distanceArcher <= 20) {
+                selectedTower = new Archer(null);
+            }
+
+            double distanceWindCaster = Math.sqrt(Math.pow(mouseX - 740, 2) + Math.pow(mouseY - 520, 2));
+            if (distanceWindCaster <= 20) {
+                selectedTower = new WindCaster(null);
+            }
+
+            double distanceWaterCaster = Math.sqrt(Math.pow(mouseX - 740, 2) + Math.pow(mouseY - 460, 2));
+            if (distanceWaterCaster <= 20) {
+                selectedTower = new WaterCaster(null);
+            }
+
+            double distanceEarthCaster = Math.sqrt(Math.pow(mouseX - 740, 2) + Math.pow(mouseY - 400, 2));
+            if (distanceEarthCaster <= 20) {
+                selectedTower = new EarthCaster(null);
+            }
+
+            double distanceFireCaster = Math.sqrt(Math.pow(mouseX - 740, 2) + Math.pow(mouseY - 340, 2));
+            if (distanceFireCaster <= 20) {
+                selectedTower = new FireCaster(null);
+            }
+        }
+    }
+
+
+    private void drawSelectedTower() {
+        if (selectedTower != null) {
+            StdDraw.setPenColor(StdDraw.GRAY); // Couleur de prévisualisation
+            double mouseX = StdDraw.mouseX();
+            double mouseY = StdDraw.mouseY();
+            StdDraw.filledCircle(mouseX, mouseY, 20);
+        }
+    }
+    
+
     
     public List<Tower> getTours() {
         return this.tours;

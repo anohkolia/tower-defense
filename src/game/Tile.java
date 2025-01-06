@@ -93,4 +93,32 @@ public class Tile {
         this.occupe = occupe;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setGrid(GameMap grid) {
+        this.grid = grid;
+    }
+
+    public void setTempGrid(char[][] tempGrid) {
+        this.tempGrid = tempGrid;
+    }
+
 }

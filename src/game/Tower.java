@@ -5,7 +5,7 @@ import ui.StdDraw;
 
 public class Tower {
     private Tile position; // Position de la tour
-    private int portee; // Portée de la tour
+    private double portee; // Portée de la tour
     private int degats; // Dégâts infligés par la tour
     private int cout; // Coût de la tour
     private int pv; // Points de vie de la tour
@@ -16,7 +16,7 @@ public class Tower {
     // Temps entre deux attaques
     private double vitesseAttaque;
 
-    public Tower(Tile position, int portee, int degats, int cout, int pv, int pvMax, double vitesseAttaque, boolean tourPosee) {
+    public Tower(Tile position, double portee, int degats, int cout, int pv, int pvMax, double vitesseAttaque, boolean tourPosee) {
         this.position = position;
         this.portee = portee;
         this.degats = degats;
@@ -141,7 +141,7 @@ public class Tower {
         return position;
     }
 
-    public int getPortee() {
+    public double getPortee() {
         return portee;
     }
 
@@ -167,6 +167,42 @@ public class Tower {
 
     public boolean getTourPosee() {
         return tourPosee;
+    }
+
+    public void setPosition(Tile position) {
+        this.position = position;
+    }
+
+    public void setPortee(int portee) {
+        this.portee = portee;
+    }
+
+    public void setDegats(int degats) {
+        this.degats = degats;
+    }
+
+    public void setCout(int cout) {
+        this.cout = cout;
+    }
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
+
+    public void setPvMax(int pvMax) {
+        this.pvMax = pvMax;
+    }
+
+    public void setTourPosee(boolean tourPosee) {
+        this.tourPosee = tourPosee;
+    }
+
+    public void setTempsRecharge(double tempsRecharge) {
+        this.tempsRecharge = tempsRecharge;
+    }
+
+    public void setVitesseAttaque(double vitesseAttaque) {
+        this.vitesseAttaque = vitesseAttaque;
     }
 
     

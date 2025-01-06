@@ -36,7 +36,7 @@ public class ChargementVague {
     private static Enemy creerEnnemi(String typeEnnemi, List<Tile> chemin) {
         switch (typeEnnemi) {
             case "Basic":
-                return new Enemy(chemin, 40, 0.1, 10, 10, 1, 80, 3);
+                return new Enemy(chemin, 40, 0.1, 10, 10, 1, 2, 3);
             case "FireBasic":
                 return new Enemy(chemin, 50, 2, 10, 10, 1, 2, 7); 
             case "WaterBasic":

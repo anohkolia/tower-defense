@@ -15,7 +15,7 @@ public class Enemy {
     private int pvMax;
     private  double speed; // Vitesse de déplacement de l'ennemi
     private  int reward; // Récompense donnée au joueur lorsqu'il tue l'ennemi
-    private int portee;
+    private double portee;
     private int degats;
     private Tile caseActuelle; // Case sur laquelle se trouve l'ennemi
     private Tile caseCible; // Case cible vers laquelle se dirige l'ennemi
@@ -223,7 +223,7 @@ public class Enemy {
         return reward;
     }
 
-    public int getPortee() {
+    public double getPortee() {
         return portee;
     }
 
