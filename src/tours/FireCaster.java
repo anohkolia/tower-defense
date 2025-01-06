@@ -1,15 +1,14 @@
 package tours;
 
-import java.util.List;
-
 import game.Enemy;
 import game.Tile;
 import game.Tower;
+import java.util.List;
 import ui.StdDraw;
 
 public class FireCaster extends Tower {
     public FireCaster(Tile position) {
-        super(position, 2.5, 20, 100, 30, 30, 0.5, true);
+        super(position, 80, 20, 100, 30, 30, 0.5, true);
     }
 
     @Override
@@ -24,7 +23,7 @@ public class FireCaster extends Tower {
 
     @Override
     public void draw() {
-        StdDraw.setPenColor(StdDraw.YELLOW);
+        StdDraw.setPenColor(StdDraw.ORANGE);
         StdDraw.filledCircle(getPosition().getCenterX(), getPosition().getCenterY(), 20);
     }
 

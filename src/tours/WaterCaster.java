@@ -1,10 +1,9 @@
 package tours;
 
-import java.util.List;
-
 import game.Enemy;
 import game.Tile;
 import game.Tower;
+import java.util.List;
 import ui.StdDraw;
 
 public class WaterCaster extends Tower {
@@ -24,7 +23,7 @@ public class WaterCaster extends Tower {
 
     @Override
     public void draw() {
-        StdDraw.setPenColor(StdDraw.YELLOW);
+        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(getPosition().getCenterX(), getPosition().getCenterY(), 20);
     }
 
